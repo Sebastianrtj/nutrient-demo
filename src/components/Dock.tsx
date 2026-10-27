@@ -50,6 +50,7 @@ export default function Dock({ shipment, onCaptured, onAccounting }: { shipment:
   const busyRef = useRef(false);
   const previewFocused = useRef(false);
   const operationId = useRef('');
+  const signingDate = useRef<string | null>(null);
   const [pendingUrl, setPendingUrl] = useState('');
   const documents = useMemo(() => {
     const sources = shipment.documents.filter(doc => doc.kind === 'bol' || doc.kind === 'demo-pickup');
@@ -101,8 +102,10 @@ export default function Dock({ shipment, onCaptured, onAccounting }: { shipment:
       return () => { active = false; };
     }
     setPreview('updating');
+    const date = signingDate.current;
+    if (!date) { setPreview('error'); setPreviewError('Clear and sign again to set the signing date.'); return; }
     const timer = window.setTimeout(() => {
-      handle.setSignature(strokes).then(() => {
+      handle.setSignature(strokes, date).then(() => {
         if (!active) return;
         if (!previewFocused.current) { handle.focusSignature(); previewFocused.current = true; }
         setPreview('ready');
@@ -118,11 +121,12 @@ export default function Dock({ shipment, onCaptured, onAccounting }: { shipment:
     setTrackFinale(true); setArrivedId(response.capture.id); attempts.current = 0;
     setResult(response); onCaptured(shipment.id, response);
     await recovery.remove(shipment.id).catch(() => undefined);
-    setPending(null); setStrokes([]); setSelectedId(response.capture.id); setStage('received'); setError('');
+    setPending(null); setStrokes([]); signingDate.current = null; setSelectedId(response.capture.id); setStage('received'); setError('');
   }
   async function saveAndSend() {
     if (busyRef.current || !checkedRecovery) return;
-    if (!pending && (!viewer.current || !validSignature || preview !== 'ready' || !original)) return;
+    const date = signingDate.current;
+    if (!pending && (!viewer.current || !validSignature || preview !== 'ready' || !original || !date)) return;
     busyRef.current = true; setError('');
     try {
       if (pending) { attempts.current += 1; await send(pending); return; }
@@ -130,7 +134,7 @@ export default function Dock({ shipment, onCaptured, onAccounting }: { shipment:
       setStage('preparing');
       const handle = viewer.current!;
       // Flush the latest pad strokes after all preview work, before export.
-      await handle.setSignature(strokes);
+      await handle.setSignature(strokes, date!);
       const bytes = await handle.exportFlattened();
       operationId.current ||= crypto.randomUUID();
       const work = { shipmentId: shipment.id, sourceDocumentId: original!.id, operationId: operationId.current, createdAt: new Date().toISOString(), bytes };
@@ -142,11 +146,17 @@ export default function Dock({ shipment, onCaptured, onAccounting }: { shipment:
       setError(reason instanceof Error ? reason.message : 'The PDF could not be saved. Your work is kept for retry.');
     } finally { busyRef.current = false; }
   }
-  function editSignature(value: SignatureStroke[]) { setStrokes(value); setPreview('empty'); if (stage === 'failed') setStage('editing'); }
+  function editSignature(value: SignatureStroke[]) {
+    if (!value.length) signingDate.current = null;
+    else if (!signingDate.current && hasSignature(value)) {
+      signingDate.current = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date());
+    }
+    setStrokes(value); setPreview('empty'); if (stage === 'failed') setStage('editing');
+  }
   function selectDocument(doc: DocumentRecord) {
     if (busy || doc.id === selectedId) return;
     setSelectedId(doc.id);
-    if (doc.kind === 'bol') { setStrokes([]); operationId.current = ''; }
+    if (doc.kind === 'bol') { setStrokes([]); signingDate.current = null; operationId.current = ''; }
   }
   return <main className="workspace document-workspace" data-preview-state={preview}>
     <div className="breadcrumbs"><a href="#/dock"><ArrowLeft size={14} />Shipments</a><span>/</span><span>{shipment.id}</span></div>

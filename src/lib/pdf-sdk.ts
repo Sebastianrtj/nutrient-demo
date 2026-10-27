@@ -4,7 +4,7 @@ import type { Instance } from '@nutrient-sdk/viewer';
 import type { SignatureStroke } from '../../shared/contracts';
 
 export interface PdfHandle {
-  setSignature(strokes: SignatureStroke[]): Promise<void>;
+  setSignature(strokes: SignatureStroke[], signingDate: string): Promise<void>;
   clearSignature(): Promise<void>;
   focusSignature(): void;
   focusDriver(): () => void;
@@ -20,6 +20,7 @@ const mounts = new WeakMap<HTMLElement, Promise<PdfHandle>>();
 // Verified on all 40 supplied 612 × 792 BOLs. These are PDF page coordinates,
 // independent of screen zoom. The separate consignee field remains untouched.
 const driverRegion = { left: 294, top: 558, width: 170, height: 20 };
+const driverDateRegion = { left: 498, top: 558, width: 70, height: 20 };
 
 function signatureLines(strokes: SignatureStroke[], sdk: Sdk) {
   const clean = strokes.map(line => line.filter(p => Number.isFinite(p.x) && Number.isFinite(p.y)))
@@ -91,6 +92,7 @@ export async function mountPdf(
     }
     let alive = true;
     let signatureId: string | null = null;
+    let signingDateId: string | null = null;
     let signatureWork: Promise<void> = Promise.resolve();
     // Preview edits, Clear and export share one ordered mutation queue. A late
     // preview must never repaint ink after Clear or race the committed export.
@@ -104,10 +106,13 @@ export async function mountPdf(
       return next;
     }
     return {
-      setSignature(strokes) { return changeSignature(async () => {
+      setSignature(strokes, signingDate) { return changeSignature(async () => {
         const page = instance.pageInfoForIndex(0);
         if (!page || Math.abs(page.width - 612) > 1 || Math.abs(page.height - 792) > 1) {
           throw new Error('This form needs its signature position checked.');
+        }
+        if (!/^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) ([1-9]|[12]\d|3[01]), \d{4}$/.test(signingDate)) {
+          throw new Error('The signing date is unavailable. Clear and sign again.');
         }
         const lines = signatureLines(strokes, sdk);
         const annotation = new sdk.Annotations.InkAnnotation({
@@ -120,17 +125,42 @@ export async function mountPdf(
           lineWidth: 1.35,
           strokeColor: new sdk.Color({ r: 32, g: 49, b: 59 }),
         });
-        if (signatureId) { await instance.update(annotation); return; }
-        const created = await instance.create(annotation);
-        const signature = created.find(value => value instanceof sdk.Annotations.InkAnnotation);
-        if (!signature || !('id' in signature) || typeof signature.id !== 'string') {
-          throw new Error('The PDF signature could not be created. Please try again.');
+        if (signatureId) await instance.update(annotation);
+        else {
+          const created = await instance.create(annotation);
+          const signature = created.find(value => value instanceof sdk.Annotations.InkAnnotation);
+          if (!signature || !('id' in signature) || typeof signature.id !== 'string') {
+            throw new Error('The PDF signature could not be created. Please try again.');
+          }
+          signatureId = signature.id;
         }
-        signatureId = signature.id;
+        const dateAnnotation = new sdk.Annotations.TextAnnotation({
+          ...(signingDateId ? { id: signingDateId } : {}),
+          pageIndex: 0,
+          readOnly: true,
+          text: { format: 'plain', value: signingDate },
+          font: 'Helvetica',
+          fontSize: 9,
+          fontColor: new sdk.Color({ r: 32, g: 49, b: 59 }),
+          horizontalAlign: 'center',
+          verticalAlign: 'center',
+          boundingBox: new sdk.Geometry.Rect(driverDateRegion),
+        });
+        if (signingDateId) await instance.update(dateAnnotation);
+        else {
+          const created = await instance.create(dateAnnotation);
+          const date = created.find(value => value instanceof sdk.Annotations.TextAnnotation);
+          if (!date || !('id' in date) || typeof date.id !== 'string') {
+            throw new Error('The PDF signing date could not be created. Please try again.');
+          }
+          signingDateId = date.id;
+        }
       }); },
       clearSignature() { return changeSignature(async () => {
-        if (signatureId) await instance.delete(signatureId);
+        const ids = [signatureId, signingDateId].filter((id): id is string => Boolean(id));
+        if (ids.length) await instance.delete(ids);
         signatureId = null;
+        signingDateId = null;
       }); },
       focusSignature() {
         if (!alive) return;
@@ -158,7 +188,7 @@ export async function mountPdf(
       async exportFlattened() {
         await signatureWork;
         if (!alive) throw new Error('Reopen the document before saving.');
-        if (!signatureId) throw new Error('Add your signature before saving.');
+        if (!signatureId || !signingDateId) throw new Error('Add your signature and signing date before saving.');
         return instance.exportPDF({ flatten: true });
       },
       destroy() {
