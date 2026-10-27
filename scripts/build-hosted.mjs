@@ -1,9 +1,14 @@
 import { spawnSync } from 'node:child_process';
-import { mkdir, writeFile, copyFile, readdir, stat } from 'node:fs/promises';
+import { mkdir, writeFile, copyFile, readdir, stat, rm } from 'node:fs/promises';
 import { loadCatalog,DEFAULT_SOURCE_ROOT,SAMPLE_DATE } from '../server/catalog.ts';
 import { build } from 'esbuild';
 for(const args of [['./node_modules/typescript/bin/tsc','--noEmit'],['./node_modules/vite/bin/vite.js','build']]){
  const result=spawnSync(process.execPath,args,{stdio:'inherit',env:{...process.env,DEMO_BASE_PATH:'/nutrientdemo/'}});if(result.status!==0)process.exit(result.status||1);
+}
+// This demo opens PDFs only. Exclude the separate processor engine used for
+// non-PDF conversion; keep the complete package for local development.
+for (const entry of await readdir('dist/nutrient-viewer-lib')) {
+ if (entry.startsWith('gdpicture-')) await rm('dist/nutrient-viewer-lib/'+entry,{recursive:true,force:true});
 }
 const catalog=loadCatalog(DEFAULT_SOURCE_ROOT);await mkdir('dist/_samples',{recursive:true});
 const documents=[];
