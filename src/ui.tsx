@@ -1,6 +1,7 @@
 import { AlertCircle, CheckCircle2, Circle, LoaderCircle } from 'lucide-react';
 import type { ReactNode } from 'react';
 import type { DocumentRecord, Deduction } from '../shared/contracts';
+import { bolRecordLabel } from '../shared/bol-records';
 
 export const money = (amount: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 2 }).format(amount);
 export function date(value?: string, withYear = false) {
@@ -12,8 +13,9 @@ export function dateTime(value?: string) {
   if (!value) return 'Time unavailable';
   return new Date(value).toLocaleString('en-US', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: '2-digit' });
 }
-export function docLabel(doc: DocumentRecord) {
-  return { bol: 'Original BOL', invoice: 'Invoice', scan: 'Historical scan', 'demo-pickup': 'Demo pickup' }[doc.kind];
+export function docLabel(doc: DocumentRecord, documents?: readonly DocumentRecord[]) {
+  if (documents && (doc.kind === 'demo-pickup' || doc.kind === 'demo-receiving')) return bolRecordLabel(doc, documents);
+  return { bol: 'Original BOL', invoice: 'Invoice', scan: 'Historical scan', 'demo-pickup': 'Demo pickup', 'demo-receiving': 'Demo receiving' }[doc.kind];
 }
 export function evidence(deduction: Deduction) {
   return deduction.evidenceState === 'missing' ? { label: 'Historical scan missing', tone: 'warning' } : deduction.evidenceState === 'mismatch' ? { label: 'Match needs checking', tone: 'warning' } : { label: 'Files available', tone: 'neutral' };

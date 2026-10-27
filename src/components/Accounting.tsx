@@ -2,6 +2,9 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { ArrowDownToLine, ArrowLeft, ArrowRight, Check, FileText, Save } from 'lucide-react';
 import type { Assessment, Deduction, DocumentRecord, Shipment } from '../../shared/contracts';
 import { accountingStatus, followUpReasons } from '../../shared/accounting-status';
+import { assessmentCitations } from '../../shared/assessment-citations';
+import { chronologicalBolRecords, isCombinedBol, preferredBolRecord } from '../../shared/bol-records';
+import AssessmentSources, { sourceName } from './AssessmentSources';
 import { api, downloadBlob } from '../api';
 import { date, dateTime, deadlineLabel, docLabel, money, Notice, Status } from '../ui';
 import PdfPane from './PdfPane';
@@ -24,10 +27,18 @@ export default function Accounting({ deductions, shipments, sampleDate, id, docu
 }
 
 function initialDocument(deduction: Deduction | undefined, requestedId?: string) {
+  const preferred = deduction && preferredBolRecord(deduction.documents);
   return deduction?.documents.find(doc => doc.id === requestedId)?.id
+    || (preferred && deduction && isCombinedBol(preferred, deduction.documents) ? preferred.id : undefined)
     || deduction?.documents.find(doc => doc.id === deduction.assessment?.sourceDocumentId)?.id
     || deduction?.documents.find(doc => doc.kind === 'invoice')?.id
     || deduction?.documents[0]?.id || '';
+}
+
+function initialCitations(deduction: Deduction | undefined, requestedId?: string): AssessmentDraftFields['citations'] {
+  if (deduction?.assessment) return assessmentCitations(deduction.assessment).map(citation => ({ sourceDocumentId: citation.sourceDocumentId, page: String(citation.pageNumber) }));
+  const sourceDocumentId = initialDocument(deduction, requestedId);
+  return sourceDocumentId ? [{ sourceDocumentId, page: '1' }] : [];
 }
 
 function DeductionCase({ id, documentId, documentRequest, initial, shipments, sampleDate, onAssessment }: { id: string; documentId?: string; documentRequest?: number; initial?: Deduction; shipments: Shipment[]; sampleDate: string; onAssessment: (value: Assessment) => void }) {
@@ -36,10 +47,9 @@ function DeductionCase({ id, documentId, documentRequest, initial, shipments, sa
   const [loadError, setLoadError] = useState('');
   const [reload, setReload] = useState(0);
   const [selectedId, setSelectedId] = useState(initialDocument(initial, documentId));
-  const [citationId, setCitationId] = useState(initial?.assessment ? initial.assessment.sourceDocumentId || '' : initialDocument(initial, documentId));
+  const [citations, setCitations] = useState(() => initialCitations(initial, documentId));
   const [status, setStatus] = useState<AssessmentDraftFields['status']>(initial?.assessment?.status || '');
   const [note, setNote] = useState(initial?.assessment?.note || '');
-  const [page, setPage] = useState(String(initial?.assessment?.pageNumber || 1));
   const [saved, setSaved] = useState<Assessment | null>(initial?.assessment || null);
   const [busy, setBusy] = useState<'save' | 'packet' | null>(null);
   const [message, setMessage] = useState('');
@@ -58,7 +68,7 @@ function DeductionCase({ id, documentId, documentRequest, initial, shipments, sa
   const [draftRestored, setDraftRestored] = useState(false);
   const [draftWarning, setDraftWarning] = useState('');
   const sourceList = useRef<HTMLDivElement>(null);
-  const rule = useRef<HTMLSpanElement>(null), emphasis = useRef<HTMLSpanElement>(null), surface = useRef<HTMLSpanElement>(null);
+  const emphasis = useRef<HTMLSpanElement>(null), surface = useRef<HTMLSpanElement>(null);
   const saveButton = useRef<HTMLButtonElement>(null), packetButton = useRef<HTMLButtonElement>(null), outcomesRef = useRef<HTMLDivElement>(null), citationFields = useRef<HTMLDivElement>(null);
   const [filed, setFiled] = useState(false);
   const filedTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -72,11 +82,11 @@ function DeductionCase({ id, documentId, documentRequest, initial, shipments, sa
       if (!active) return;
       setDeduction(value); setSaved(value.assessment);
       const recovered = readAssessmentDraft(id);
-      const baseline: AssessmentDraftFields = { status: value.assessment?.status || '', note: value.assessment?.note || '', page: String(value.assessment?.pageNumber || 1), citationId: value.assessment ? value.assessment.sourceDocumentId || '' : initialDocument(value, documentId) };
+      const baseline: AssessmentDraftFields = { status: value.assessment?.status || '', note: value.assessment?.note || '', citations: initialCitations(value, documentId) };
       const draft = recovered.draft;
-      const differs = draft && (draft.status !== baseline.status || draft.note.trim() !== baseline.note || draft.citationId !== baseline.citationId || draft.page !== baseline.page);
+      const differs = draft && (draft.status !== baseline.status || draft.note.trim() !== baseline.note || JSON.stringify(draft.citations) !== JSON.stringify(baseline.citations));
       const fields = differs ? draft : baseline;
-      setStatus(fields.status); setNote(fields.note); setPage(fields.page); setCitationId(fields.citationId);
+      setStatus(fields.status); setNote(fields.note); setCitations(fields.citations);
       setDraftRestored(Boolean(differs)); setDraftWarning(recovered.warning || '');
       setSelectedId(initialDocument(value, documentId));
     }).catch(reason => {
@@ -94,28 +104,30 @@ function DeductionCase({ id, documentId, documentRequest, initial, shipments, sa
   const shipment = shipments.find(item => item.id === deduction?.shipmentId);
   const documents = deduction?.documents || [];
   const selected = documents.find(doc => doc.id === selectedId) || documents[0];
-  const citation = documents.find(doc => doc.id === citationId);
+  const records = chronologicalBolRecords(documents);
+  const selectedRecord = Boolean(selected && records.some(doc => doc.id === selected.id));
+  const preferredRecord = preferredBolRecord(documents);
+  const versions = selectedRecord ? records : [];
+  const coreDocuments = ['bol', 'invoice', 'scan'].flatMap(kind => documents.filter(doc => doc.kind === kind));
   const selectedOutcome = status === 'ready' ? 'ready' : status ? 'follow-up' : '';
-  const payload = { status, note: note.trim(), ...(citation ? { sourceDocumentId: citation.id, pageNumber: Number(page) } : {}) };
-  const dirty = !saved || saved.status !== payload.status || saved.note !== payload.note || saved.sourceDocumentId !== payload.sourceDocumentId || saved.pageNumber !== payload.pageNumber;
+  const payload = { status, note: note.trim(), citations: citations.map(citation => ({ sourceDocumentId: citation.sourceDocumentId, pageNumber: Number(citation.page) })) };
+  const dirty = !saved || saved.status !== payload.status || saved.note !== payload.note || JSON.stringify(assessmentCitations(saved)) !== JSON.stringify(payload.citations);
   const disabled = Boolean(busy) || loading || Boolean(loadError);
-  useGlider(rule, () => sourceList.current?.querySelector('.source-tab--active'), [selected?.id, documents.length, loading], { keepY: true, pad: -9 });
   useGlider(emphasis, () => dirty ? saveButton.current : packetButton.current, [dirty, loading]);
   useGlider(surface, () => outcomesRef.current?.querySelector('.outcome-option--selected'), [selectedOutcome, loading], { spring: 'snap' });
   const requestedUnavailable = !loading && Boolean(documentId) && !documents.some(doc => doc.id === documentId);
-  useEffect(() => {
-    sourceList.current?.querySelector('[aria-pressed="true"]')?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
-  }, [selectedId, documents.length]);
 
   async function save() {
     if (!status) throw new Error('Choose Needs follow-up or Ready for handoff before saving.');
     if (status === 'follow-up') throw new Error('Choose a follow-up reason before saving.');
     if (!note.trim()) throw new Error('Add a short note about what the evidence supports or what is missing.');
-    if (citationId && !citation) throw new Error('Choose an available assessment source, or select No source citation.');
-    if (citation && (!Number.isInteger(Number(page)) || Number(page) < 1)) throw new Error('Enter a source page number of 1 or more.');
+    for (const citation of citations) {
+      if (!documents.some(doc => doc.id === citation.sourceDocumentId)) throw new Error('Remove the unavailable citation or choose an available source.');
+      if (!Number.isInteger(Number(citation.page)) || Number(citation.page) < 1) throw new Error('Enter a page number of 1 or more for each source.');
+    }
     const currentDraft = readAssessmentDraft(id);
     const submittedRevision = currentDraft.draft?.status === status && currentDraft.draft.note === note
-      && currentDraft.draft.citationId === citationId && currentDraft.draft.page === page ? currentDraft.revision : undefined;
+      && JSON.stringify(currentDraft.draft.citations) === JSON.stringify(citations) ? currentDraft.revision : undefined;
     const assessment = await api.assessment(id, { ...payload, status });
     setSaved(assessment); onAssessment(assessment);
     const cleared = clearAssessmentDraft(id, submittedRevision);
@@ -141,8 +153,8 @@ function DeductionCase({ id, documentId, documentRequest, initial, shipments, sa
   }
   function changeSource(doc: DocumentRecord) { setSelectedId(doc.id); }
   function changeDraft(changes: Partial<AssessmentDraftFields>) {
-    const fields = { status, note, citationId, page, ...changes };
-    setStatus(fields.status); setNote(fields.note); setCitationId(fields.citationId); setPage(fields.page); setMessage(''); setError('');
+    const fields = { status, note, citations, ...changes };
+    setStatus(fields.status); setNote(fields.note); setCitations(fields.citations); setMessage(''); setError('');
     setDraftWarning(writeAssessmentDraft(id, fields) ? '' : 'Browser storage is unavailable. Keep this tab open or save before refreshing.');
   }
 
@@ -173,10 +185,14 @@ function DeductionCase({ id, documentId, documentRequest, initial, shipments, sa
 
     <div className="accounting-case-layout">
       <section id="evidence-pane" className="document-column" aria-label="Source evidence">
-        <div ref={sourceList} className="source-switcher" aria-label="Evidence sources"><span ref={rule} className="source-rule" aria-hidden="true" />{documents.map(doc => <button key={doc.id} data-document-id={doc.id} className={'source-tab' + (selected?.id === doc.id ? ' source-tab--active' : '')} onClick={() => changeSource(doc)} aria-pressed={selected?.id === doc.id} disabled={Boolean(busy)}><FileText size={15} />{docLabel(doc)}{doc.kind === 'demo-pickup' && <span className="source-tab-time">{dateTime(doc.createdAt)}</span>}</button>)}</div>
-        <div className="document-caption"><span>{selected?.kind === 'demo-pickup' ? 'Demo pickup · ' + dateTime(selected.createdAt) : selected ? docLabel(selected) + ' · supplied sample' : 'No source document available'}</span><span className="document-filename" title={selected?.name}>{selected?.name}</span></div>
+        <div className="evidence-controls"><nav ref={sourceList} className="source-switcher evidence-source-tabs" aria-label="Evidence sources">
+          {preferredRecord && <button className={'source-tab' + (selectedRecord ? ' source-tab--active' : '')} data-document-id={selectedRecord ? selected!.id : preferredRecord.id} onClick={() => changeSource(preferredRecord)} aria-pressed={selectedRecord} disabled={Boolean(busy)}><FileText size={15} />{docLabel(preferredRecord, documents)}{records.length > 1 && <span className="source-version-count" aria-hidden="true">{records.length}</span>}</button>}
+          {coreDocuments.map(doc => <button key={doc.id} data-document-id={doc.id} className={'source-tab' + (selected?.id === doc.id ? ' source-tab--active' : '')} onClick={() => changeSource(doc)} aria-pressed={selected?.id === doc.id} disabled={Boolean(busy)}><FileText size={15} />{docLabel(doc)}</button>)}
+        </nav>
+        {versions.length > 1 && selected && <div className="source-version-picker"><span>BOL history</span><TableSelect label="BOL history" hideLabel value={selected.id} disabled={Boolean(busy)} onChange={event => setSelectedId(event.target.value)}>{[...versions].reverse().map(doc => <option key={doc.id} value={doc.id}>{sourceName(doc, documents)}{doc.id === preferredRecord?.id ? isCombinedBol(doc, documents) ? ' · Latest completed' : doc.kind === 'demo-pickup' ? ' · Latest pickup' : ' · Latest receiving' : ''}</option>)}</TableSelect></div>}</div>
+        <div className="document-caption"><span>{selected ? docLabel(selected, documents) + (isCombinedBol(selected, documents) ? ' · Driver + receiver' : '') + ' · ' + (selected.kind.startsWith('demo-') ? dateTime(selected.createdAt) : 'supplied sample') : 'No source document available'}</span><span className="document-filename" title={selected?.name}>{selected?.name}</span></div>
         <PdfPane url={selected?.url} title={'Evidence for ' + deduction.id} />
-        {selected?.kind === 'demo-pickup' && <p className="document-note">Created during this proof. This pickup record does not establish historical delivery.</p>}
+        {selected?.kind.startsWith('demo-') && <p className="document-note">Created during this proof. This {selected.kind === 'demo-receiving' ? 'receiving' : 'pickup'} record does not establish historical delivery.</p>}
       </section>
 
       <aside id="assessment-pane" className="assessment-rail" aria-label="Deduction assessment">
@@ -188,7 +204,7 @@ function DeductionCase({ id, documentId, documentRequest, initial, shipments, sa
           <fieldset disabled={disabled} className="outcome-fieldset"><legend className="field-label">Case status</legend><div ref={outcomesRef} className="outcome-options"><span ref={surface} className="outcome-surface" aria-hidden="true" />{outcomes.map(outcome => <label className={'outcome-option' + (selectedOutcome === outcome.value ? ' outcome-option--selected' : '')} key={outcome.value}><input type="radio" name={'outcome-' + id} value={outcome.value} checked={selectedOutcome === outcome.value} onChange={() => changeDraft({ status: outcome.value === 'follow-up' && (status === 'needs-evidence' || status === 'investigate') ? status : outcome.value })} /><span><span className="outcome-title">{outcome.label}</span><span className="outcome-description">{outcome.description}</span></span></label>)}</div></fieldset>
           {selectedOutcome === 'follow-up' && <div className="follow-up-fields"><TableSelect label="Follow-up reason" id="follow-up-reason" value={status === 'follow-up' ? '' : status} disabled={disabled} onChange={event => changeDraft({ status: (event.target.value || 'follow-up') as AssessmentDraftFields['status'] })}><option value="">Choose a reason</option>{followUpReasons.map(reason => <option key={reason.value} value={reason.value}>{reason.label}</option>)}</TableSelect></div>}
           <label className="field-label" htmlFor="assessment-note">Review note</label><textarea id="assessment-note" rows={4} value={note} disabled={disabled} onChange={event => changeDraft({ note: event.target.value })} placeholder={selectedOutcome === 'follow-up' ? 'What is missing or needs reconciling? What happens next?' : selectedOutcome === 'ready' ? 'What supports this case being ready for handoff?' : 'Record what the sources support.'} maxLength={4000} />
-          <div ref={citationFields} className="citation-fields"><TableSelect label="Assessment source" id="citation-source" value={citationId} disabled={disabled} onChange={event => changeDraft({ citationId: event.target.value, page: '1' })}><option value="">No source citation</option>{citationId && !citation && <option value={citationId} disabled>Unavailable source · choose again</option>}{documents.map(doc => <option key={doc.id} value={doc.id}>{docLabel(doc)} · {doc.kind === 'demo-pickup' ? dateTime(doc.createdAt) : doc.name}</option>)}</TableSelect><div className="source-citation">{selected && selected.id !== citationId ? <button className="text-button" disabled={disabled} onClick={() => { flyCitation(sourceList.current?.querySelector('.source-tab--active') || null, citationFields.current?.querySelector('select') || null, docLabel(selected)); changeDraft({ citationId: selected.id, page: '1' }); }}>Use viewed source</button> : <span>{citation ? 'Source chosen for this note' : 'No source cited'}</span>}{citation && <label>Page<input type="number" min="1" step="1" inputMode="numeric" value={page} onChange={event => changeDraft({ page: event.target.value })} disabled={disabled} aria-label="Assessment source page" /></label>}</div></div>
+          <div ref={citationFields} className="citation-fields"><AssessmentSources documents={documents} citations={citations} selected={selected} disabled={disabled} onChange={next => changeDraft({ citations: next })} onView={doc => { changeSource(doc); setPanel('evidence'); }} onAddViewed={() => { if (!selected) return; flyCitation(sourceList.current?.querySelector('.source-tab--active') || null, citationFields.current, docLabel(selected, documents)); changeDraft({ citations: [...citations, { sourceDocumentId: selected.id, page: '1' }] }); }} /></div>
         </div>
       </aside>
 

@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { closeSync, existsSync, fsyncSync, mkdirSync, openSync, readFileSync, readdirSync, realpathSync, renameSync, rmSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import type { Assessment, CaptureResult } from '../shared/contracts.js';
+import type { Assessment, CaptureResult, ReceivingDetails } from '../shared/contracts.js';
 import { inside, sha256 } from './catalog.js';
 
 export interface StoredCapture extends CaptureResult { sourceDocumentId: string; filePath: string; pages: number; }
@@ -32,15 +32,15 @@ export class DemoStore {
       const filePath = realpathSync(resolve(dir, 'document.pdf'));
       if (!inside(dir, filePath) || sha256(readFileSync(filePath)) !== saved.receipt.sha256) throw new Error('Stored capture failed integrity check');
       if (this.captures.has(saved.receipt.operationId)) throw new Error('Duplicate operation in demo store');
-      this.captures.set(saved.receipt.operationId, { ...saved, filePath });
+      this.captures.set(saved.receipt.operationId, { ...saved, capture: { ...saved.capture, sourceDocumentId: saved.sourceDocumentId }, filePath });
     }
     const path = resolve(this.root, 'assessments.json');
     if (existsSync(path)) for (const assessment of JSON.parse(readFileSync(path, 'utf8')) as Assessment[]) this.assessments.set(assessment.deductionId, assessment);
   }
-  saveCapture(shipmentId: string, sourceDocumentId: string, operationId: string, pdf: Buffer, pages: number): StoredCapture {
+  saveCapture(shipmentId: string, sourceDocumentId: string, operationId: string, pdf: Buffer, pages: number, receiving?: ReceivingDetails): StoredCapture {
     const id = randomUUID(), receivedAt = new Date().toISOString(), hash = sha256(pdf);
     const result: Omit<StoredCapture, 'filePath'> = { sourceDocumentId, pages,
-      capture: { id: `demo-${id}`, shipmentId, kind: 'demo-pickup', name: `Demo pickup - ${shipmentId} - ${receivedAt.slice(0, 10)}.pdf`, url: `/api/documents/demo-${id}`, createdAt: receivedAt, sha256: hash, captureId: id },
+      capture: { id: `demo-${id}`, shipmentId, sourceDocumentId, kind: receiving ? 'demo-receiving' : 'demo-pickup', ...(receiving ? { receiving } : {}), name: `${receiving ? 'Signed BOL' : 'Demo pickup'} - ${shipmentId} - ${receivedAt.slice(0, 10)}.pdf`, url: `/api/documents/demo-${id}`, createdAt: receivedAt, sha256: hash, captureId: id },
       receipt: { id, receivedAt, sha256: hash, bytes: pdf.length, operationId } };
     const temp = resolve(this.captureDir, `.tmp-${id}`), target = resolve(this.captureDir, id);
     mkdirSync(temp, { mode: 0o700 });

@@ -7,7 +7,7 @@ export type TrackStage = 'preparing' | 'sending' | 'received' | 'failed' | 'unce
 const STEPS = ['Preparing PDF', 'Sending pickup', 'Received by demo server'] as const;
 const ROW = 30; // px; must match .transfer-track__step height
 
-export default function TransferTrack({ stage, attempt = 0, onDone }: { stage: TrackStage; attempt?: number; onDone?: () => void }) {
+export default function TransferTrack({ stage, attempt = 0, onDone, receiving = false }: { stage: TrackStage; attempt?: number; onDone?: () => void; receiving?: boolean }) {
   const root = useRef<HTMLDivElement>(null);
   const node = useRef<HTMLSpanElement>(null);
   const fill = useRef<HTMLSpanElement>(null);
@@ -45,7 +45,8 @@ export default function TransferTrack({ stage, attempt = 0, onDone }: { stage: T
       <span className="transfer-track__line" aria-hidden="true"><span ref={fill} className="transfer-track__fill" /></span>
       <span ref={node} className="transfer-track__node" data-paused={paused || undefined} aria-hidden="true" />
       <ol aria-label="Transfer progress">
-        {STEPS.map((label, i) => {
+        {STEPS.map((step, i) => {
+          const label = receiving && i === 1 ? 'Sending receiving record' : step;
           const state = stage === 'received' || i < index ? 'done' : i === index ? (paused ? 'paused' : 'current') : 'next';
           return <li key={label} className="transfer-track__step" data-state={state} aria-current={state === 'current' ? 'step' : undefined}>
             <span ref={el => { marks.current[i] = el; }} className="transfer-track__mark" aria-hidden="true">

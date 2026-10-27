@@ -10,7 +10,7 @@
     "prepare:sdk": "node scripts/prepare-sdk.mjs",
     "postinstall": "npm run prepare:sdk",
     "build": "tsc --noEmit && vite build",
-    "test": "node --import tsx --test server/*.test.ts src/components/*.test.tsx",
+    "test": "node --import tsx --test server/*.test.ts src/components/*.test.tsx src/lib/*.test.ts",
     "start": "NODE_ENV=production tsx server/index.ts",
     "build:hosted": "node --import tsx scripts/build-hosted.mjs",
     "test:worker": "node --import tsx --test worker/*.test.mjs",

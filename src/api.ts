@@ -1,5 +1,5 @@
 import { appUrl } from './lib/base-path';
-import type { Assessment, Bootstrap, CaptureResult, Deduction, Shipment } from '../shared/contracts';
+import type { Assessment, Bootstrap, CaptureResult, Deduction, Shipment, ReceivingDetails } from '../shared/contracts';
 
 export class RequestError extends Error {
   constructor(message: string, public uncertain = false) { super(message); this.name = 'RequestError'; }
@@ -26,12 +26,12 @@ export const api = {
   bootstrap: async (): Promise<Bootstrap> => (await request('/api/bootstrap')).json(),
   shipment: async (id: string): Promise<Shipment> => (await request(`/api/shipments/${encodeURIComponent(id)}`)).json(),
   deduction: async (id: string): Promise<Deduction> => (await request(`/api/deductions/${encodeURIComponent(id)}`)).json(),
-  capture: async (shipmentId: string, bytes: ArrayBuffer, operationId: string, sourceDocumentId: string): Promise<CaptureResult> => (
+  capture: async (shipmentId: string, bytes: ArrayBuffer, operationId: string, sourceDocumentId: string, receiving?: ReceivingDetails): Promise<CaptureResult> => (
     await request(`/api/shipments/${encodeURIComponent(shipmentId)}/captures`, {
-      method: 'POST', headers: { 'Content-Type': 'application/pdf', 'X-Operation-Id': operationId, 'X-Source-Document-Id': sourceDocumentId }, body: bytes,
+      method: 'POST', headers: { 'Content-Type': 'application/pdf', 'X-Operation-Id': operationId, 'X-Source-Document-Id': sourceDocumentId, ...(receiving ? { 'X-Capture-Kind': 'demo-receiving', 'X-Receiving-Details': encodeURIComponent(JSON.stringify(receiving)) } : {}) }, body: bytes,
     }, true)
   ).json(),
-  assessment: async (id: string, value: Pick<Assessment, 'status' | 'note' | 'sourceDocumentId' | 'pageNumber'>): Promise<Assessment> => (
+  assessment: async (id: string, value: Pick<Assessment, 'status' | 'note' | 'citations' | 'sourceDocumentId' | 'pageNumber'>): Promise<Assessment> => (
     await request(`/api/deductions/${encodeURIComponent(id)}/assessment`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(value) })
   ).json(),
   packet: async (id: string): Promise<{ blob: Blob; filename: string }> => {
@@ -42,7 +42,7 @@ export const api = {
 };
 
 export interface PendingCapture {
-  shipmentId: string; sourceDocumentId: string; operationId: string; createdAt: string; bytes: ArrayBuffer;
+  shipmentId: string; sourceDocumentId: string; operationId: string; createdAt: string; bytes: ArrayBuffer; receiving?: ReceivingDetails;
 }
 
 async function pendingStore<T>(mode: IDBTransactionMode, perform: (store: IDBObjectStore) => IDBRequest<T>): Promise<T> {

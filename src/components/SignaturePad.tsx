@@ -3,7 +3,7 @@ import type { KeyboardEvent, PointerEvent } from 'react';
 import { Eraser, PenLine } from 'lucide-react';
 import type { SignaturePoint, SignatureStroke } from '../../shared/contracts';
 
-export default function SignaturePad({ strokes, onChange, disabled = false }: { strokes: SignatureStroke[]; onChange: (value: SignatureStroke[]) => void; disabled?: boolean }) {
+export default function SignaturePad({ strokes, onChange, disabled = false, signer = 'driver' }: { strokes: SignatureStroke[]; onChange: (value: SignatureStroke[]) => void; disabled?: boolean; signer?: 'driver' | 'receiver' }) {
   const helpId = useId();
   const drawing = useRef(false);
   const current = useRef<SignatureStroke[]>(strokes); current.current = strokes;
@@ -42,10 +42,10 @@ export default function SignaturePad({ strokes, onChange, disabled = false }: { 
     if (penDown) { const next = [...current.current]; next[next.length - 1] = [...next[next.length - 1], nextPoint]; onChange(next); }
   }
   return <div className={`signature ${disabled ? 'signature--disabled' : ''}`}>
-    <div className="signature-label"><span><PenLine size={16} aria-hidden="true" />Driver pickup signature</span><button type="button" className="text-button" disabled={disabled || !strokes.length} onClick={() => { setPenDown(false); onChange([]); }}><Eraser size={14} />Clear</button></div>
-    <svg role="application" aria-label="Draw a fresh driver pickup signature" aria-describedby={helpId} aria-disabled={disabled} tabIndex={disabled ? -1 : 0} viewBox="0 0 1000 400" preserveAspectRatio="none" className="signature-pad" onPointerDown={start} onPointerMove={move} onPointerUp={stop} onPointerCancel={stop} onLostPointerCapture={stop} onKeyDown={key} onBlur={() => { setPenDown(false); setKeyboard(false); }}>
+    <div className="signature-label"><span><PenLine size={16} aria-hidden="true" />{signer === 'receiver' ? 'Receiver signature' : 'Driver pickup signature'}</span><button type="button" className="text-button" disabled={disabled || !strokes.length} onClick={() => { setPenDown(false); onChange([]); }}><Eraser size={14} />Clear</button></div>
+    <svg role="application" aria-label={signer === 'receiver' ? 'Draw a fresh receiver signature' : 'Draw a fresh driver pickup signature'} aria-describedby={helpId} aria-disabled={disabled} tabIndex={disabled ? -1 : 0} viewBox="0 0 1000 400" preserveAspectRatio="none" className="signature-pad" onPointerDown={start} onPointerMove={move} onPointerUp={stop} onPointerCancel={stop} onLostPointerCapture={stop} onKeyDown={key} onBlur={() => { setPenDown(false); setKeyboard(false); }}>
       <line x1="45" x2="955" y1="325" y2="325" stroke="#dedede" strokeWidth="2" />
-      {!strokes.length && <text x="500" y="205" textAnchor="middle" fill="#858585" fontSize="38" fontFamily="sans-serif">Your pickup signature</text>}
+      {!strokes.length && <text x="500" y="205" textAnchor="middle" fill="#858585" fontSize="38" fontFamily="sans-serif">{signer === 'receiver' ? 'Your receiving signature' : 'Your pickup signature'}</text>}
       {strokes.map((stroke, index) => <path key={index} d={stroke.map((at, i) => `${i ? 'L' : 'M'}${at.x * 1000},${at.y * 400}`).join(' ')} fill="none" stroke="var(--slate)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />)}
       {keyboard && <circle cx={cursor.x * 1000} cy={cursor.y * 400} r="10" fill={penDown ? 'var(--teal)' : 'white'} stroke="var(--teal)" strokeWidth="3" />}
     </svg>

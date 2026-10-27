@@ -5,3 +5,52 @@
 .signing-section .signature-label > span { font-size: 12px; }
 .signing-section .notice { margin-bottom: 12px; }
 .signing-body,.signing-actions { display:contents; }
+
+.dock-activity-switch{display:flex;gap:4px;width:fit-content;margin:0 0 20px;padding:4px;background:#e9e9e7;border-radius:8px}
+.dock-activity-switch button{display:flex;align-items:center;justify-content:center;gap:9px;min-height:42px;padding:8px 16px;border:0;border-radius:5px;background:transparent;color:#666;font-size:12px;font-weight:500;transition:background 180ms ease,color 180ms ease,box-shadow 180ms ease}
+.dock-activity-switch button[aria-pressed=true]{background:#fff;color:#24282b;box-shadow:0 1px 4px #00000012}
+.dock-activity-switch button>span{display:grid;place-items:center;width:18px;height:18px;border:1px solid #bbb;border-radius:50%;font-size:10px}
+.dock-activity-switch button[aria-pressed=true]>span{background:#30363a;border-color:#30363a;color:white}
+.receiving-workspace .receiving-split{grid-template-columns:minmax(0,1fr) 360px;align-items:start}
+.receiving-context h2{font-size:16px;line-height:1.4}.receiving-context .body-small{font-size:12px;line-height:1.5;margin-top:6px}
+.receiving-form{display:block}.receiving-fields h2{font-size:18px}.receiving-fields>.microcopy{margin:8px 0 20px}
+.receiving-field{display:flex;flex-direction:column;gap:7px;font-size:12px;color:#555;margin-top:16px;font-weight:500;min-width:0}
+.receiving-field input,.receiving-field textarea{min-width:0;width:100%;padding:10px 11px;border:1px solid #d3d4d2;border-radius:5px;background:#fff;color:#25272b;font:inherit;min-height:44px;box-shadow:0 1px 2px #00000004;transition:border-color 160ms ease,box-shadow 160ms ease}
+.receiving-field input:focus,.receiving-field textarea:focus{outline:2px solid #52676a;outline-offset:2px}
+.receiving-field textarea{min-height:90px;resize:vertical;line-height:1.5}.receiving-field-pair{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:12px}
+.receiving-exception-toggle,.receiving-confirm{display:flex;align-items:flex-start;gap:9px;line-height:1.5;font-size:12px;color:#555;margin-top:18px;cursor:pointer}
+.receiving-exception-toggle input,.receiving-confirm input{flex:none;width:17px;height:17px;accent-color:#30363a;margin:1px 0 0}
+.receiving-difference{font-size:11px;line-height:1.5;color:#9a5e19;margin-top:9px}
+.receiving-actions{padding:18px 22px;background:#fff;position:sticky;bottom:12px;border-top:1px solid #e4e4e4;z-index:2;box-shadow:0 -5px 12px #00000005}
+.receiving-actions .microcopy{margin:9px 0 0;text-align:center}.receiving-rail .receipt-section .compact-facts{margin:0 0 22px;gap:12px}.receiving-rail .receipt-section .compact-facts>div{grid-template-columns:95px minmax(0,1fr)}
+@media(min-width:901px){.receiving-workspace .document-column{position:sticky;top:18px}.receiving-workspace .pdf-pane{height:calc(100dvh - 175px);min-height:500px}}
+@media(max-width:900px){.receiving-workspace .receiving-split{display:flex;flex-direction:column}.receiving-split>.document-column,.receiving-split>.task-rail{width:100%}.receiving-split>.document-column{order:2}.receiving-split>.task-rail{order:1}.receiving-split .pdf-pane{height:600px;min-height:400px}.receiving-actions{bottom:0}.receiving-rail.task-rail{display:block}.receiving-rail.task-rail>.rail-section{border-left:0;grid-column:auto;grid-row:auto}}
+@media(max-width:600px){.dock-activity-switch{width:100%;margin-bottom:16px}.dock-activity-switch button{flex:1;gap:7px;padding:8px 9px;font-size:11px;min-height:44px}.receiving-workspace .quiet-meta{display:none}.receiving-rail .rail-section{padding:20px}.receiving-field input{font-size:16px}.receiving-actions{padding:16px 20px}.receiving-field-pair{gap:10px}.receiving-split .pdf-pane{height:520px}}
+
+@media(min-width:901px){
+ .receiving-workspace .receiving-split{height:calc(100dvh - 310px);min-height:470px}
+ .receiving-workspace .document-column{display:flex;flex-direction:column;position:relative;top:auto;height:100%}
+ .receiving-workspace .document-column .pdf-pane{flex:1;min-height:0;height:auto}
+ .receiving-workspace .receiving-rail{height:100%;display:flex;flex-direction:column;overflow:auto}
+ .receiving-workspace .receiving-context{padding-top:17px;padding-bottom:17px;flex:none}
+ .receiving-workspace .receiving-context .microcopy{margin-bottom:0}
+ .receiving-workspace .receiving-form{display:flex;flex-direction:column;flex:1;min-height:0}
+ .receiving-workspace .receiving-form-scroll{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin}
+ .receiving-workspace .receiving-actions{position:relative;bottom:auto;flex:none;padding-top:14px;padding-bottom:14px}
+ .receiving-workspace .receiving-rail>.provenance{padding:12px 22px;flex:none}
+ .receiving-workspace .provenance p{font-size:10px;margin-top:5px;line-height:1.4}
+ .receiving-workspace .provenance-label{font-size:9px}
+}
+
+.dock-activity-host:not([hidden]){display:contents}
+.dock-activity-switch{flex-shrink:0}
+@media(min-width:901px){
+ .rl-deck__live--dock .receiving-workspace .receiving-split{height:auto;min-height:0}
+ .rl-deck__live--dock .receiving-workspace .receiving-rail{height:auto}
+}
+
+.receiving-back-to-signing{display:none}
+@media(max-width:900px){.receiving-workspace .receiving-back-to-signing{display:flex;justify-content:center;gap:8px;padding:8px 12px;min-height:44px;width:100%;border-bottom:1px solid var(--line);background:#fafaf9}}
+
+.receiving-prerequisite{display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;border:1px solid var(--line);background:#fff;border-radius:6px;padding:70px 24px;color:var(--muted)}
+.receiving-prerequisite h2{color:var(--slate);font-size:22px}.receiving-prerequisite p{max-width:440px;font-size:14px;line-height:1.6}.receiving-prerequisite .button{margin-top:6px}

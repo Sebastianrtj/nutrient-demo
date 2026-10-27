@@ -90,6 +90,36 @@ test('assessment validates source/page and persists; packet keeps originals and 
   for (const doc of manifest.documents) assert.equal(sha256(files[doc.archivePath]), doc.sha256);
 });
 
+test('multiple assessment citations survive restart and reach both packet formats', async t => {
+  const api = await start(t);
+  const citations = [
+    { sourceDocumentId: 'bol-RS-417652', pageNumber: 1 },
+    { sourceDocumentId: 'invoice-INV-2104464', pageNumber: 1 },
+    { sourceDocumentId: 'scan-RS-417652', pageNumber: 1 },
+  ];
+  const response = await api.request('/api/deductions/CHB-0899904/assessment', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status: 'investigate', note: 'Compare quantities across all three supplied sources.', citations }) });
+  assert.equal(response.status, 200);
+  const saved = await response.json(); assert.deepEqual(saved.citations, citations);
+  assert.equal(saved.sourceDocumentId, citations[0].sourceDocumentId);
+  const restarted = await start(t, api.dir);
+  assert.deepEqual((await (await restarted.request('/api/deductions/CHB-0899904')).json()).assessment.citations, citations);
+  const files = unzip(Buffer.from(await (await restarted.request('/api/deductions/CHB-0899904/packet')).arrayBuffer()));
+  assert.deepEqual(JSON.parse(files['manifest.json'].toString()).deduction.assessment.citations, citations);
+  for (const citation of citations) assert.ok(files['summary.txt'].toString().includes(`Source: ${citation.sourceDocumentId} | Page: 1`));
+});
+
+test('each citation is validated, and removing every source clears legacy aliases', async t => {
+  const api = await start(t), path = '/api/deductions/CHB-0899904/assessment';
+  const put = (citations: unknown) => api.request(path, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status: 'needs-evidence', note: 'Sources require review.', citations }) });
+  const first = { sourceDocumentId: 'bol-RS-417652', pageNumber: 1 };
+  for (const citations of [null, {}, [null], [first, first], [first, { sourceDocumentId: 'bol-RS-417620', pageNumber: 1 }], [first, { sourceDocumentId: 'scan-RS-417652', pageNumber: 2 }], [{ sourceDocumentId: first.sourceDocumentId, pageNumber: 0 }], [{ sourceDocumentId: first.sourceDocumentId, pageNumber: '1' }]]) {
+    assert.equal((await put(citations)).status, 400, JSON.stringify(citations));
+  }
+  assert.equal((await put([first])).status, 200);
+  const cleared = await (await put([])).json();
+  assert.deepEqual(cleared.citations, []); assert.equal(cleared.sourceDocumentId, undefined); assert.equal(cleared.pageNumber, undefined);
+});
+
 test('fault is disabled by default; enabled failure stores nothing and retry works', async t => {
   const ordinary = await start(t); assert.equal((await ordinary.request('/api/demo/fail-next-upload', { method: 'POST' })).status, 404);
   const api = await start(t, undefined, true), bytes = await captureBytes();
@@ -188,4 +218,41 @@ test('reopens durable capture bytes when runtime state is in a dot-prefixed .dat
   assert.equal(reopened.status, 200); assert.deepEqual(Buffer.from(await reopened.arrayBuffer()), bytes);
   assert.equal((await restarted.request('/api/documents/.data')).status, 404);
   assert.equal((await restarted.request('/api/documents/%2e%2e%2f.data%2fassessments.json')).status, 404);
+});
+
+test('receiving is separate, retries bind fields and bytes, survives restart and packet preserves pickup', async t => {
+  const api = await start(t), pickupBytes = await captureBytes('driver pickup'), receivingBytes = await captureBytes('separate receiving');
+  const pickup = await (await api.request('/api/shipments/RS-417652/captures', upload(pickupBytes, 'receiver-base-pickup'))).json() as CaptureResult;
+  const details = { receiverName: 'Jordan Lee', receivedDate: '2026-10-27', palletsReceived: 0, exceptions: 'Delivery refused: damaged pallets.' };
+  const receivingUpload = (operation = 'receiving-operation', fields = details, source = pickup.capture.id, bytes = receivingBytes): RequestInit => {
+    const request = upload(bytes, operation, source);
+    request.headers = { ...request.headers, 'X-Capture-Kind': 'demo-receiving', 'X-Receiving-Details': encodeURIComponent(JSON.stringify(fields)) };
+    return request;
+  };
+  const route = '/api/shipments/RS-417652/captures';
+  const responses = await Promise.all([api.request(route, receivingUpload()), api.request(route, receivingUpload())]);
+  assert.deepEqual(responses.map(response => response.status).sort(), [200, 201]);
+  const first = await responses[0].json() as CaptureResult, duplicate = await responses[1].json();
+  assert.deepEqual(first, duplicate); assert.equal(first.capture.kind, 'demo-receiving'); assert.deepEqual(first.capture.receiving, details);
+  assert.equal((await api.request(route, receivingUpload('receiving-operation', { ...details, receiverName: 'Another receiver' }))).status, 409);
+  assert.equal((await api.request(route, upload(receivingBytes, 'receiving-operation'))).status, 409);
+  assert.equal((await api.request(route, receivingUpload('unsigned-receiving-source', details, 'bol-RS-417652'))).status, 409);
+  assert.equal((await api.request(route, receivingUpload('wrong-receiving-source', details, 'bol-RS-417620'))).status, 409);
+  assert.equal((await api.request(route, receivingUpload('receiving-on-receiving', details, first.capture.id))).status, 409);
+  assert.equal((await api.request(route, receivingUpload('empty-name', { ...details, receiverName: '' }))).status, 400);
+  assert.equal((await api.request(route, receivingUpload('fractional-pallets', { ...details, palletsReceived: 1.5 }))).status, 400);
+  assert.equal((await api.request(route, receivingUpload('missing-difference', { ...details, exceptions: '' }))).status, 400);
+  assert.equal((await api.request(route, receivingUpload('invalid-date', { ...details, receivedDate: '2026-02-30' }))).status, 400);
+  const restarted = await start(t, api.dir);
+  assert.deepEqual(await (await restarted.request(route, receivingUpload())).json(), first);
+  const caseRecord = await (await restarted.request('/api/deductions/CHB-0899904')).json() as Deduction;
+  assert.equal(caseRecord.assessment, null); assert.equal(caseRecord.evidenceState, 'available');
+  const files = unzip(Buffer.from(await (await restarted.request('/api/deductions/CHB-0899904/packet')).arrayBuffer()));
+  const manifest = JSON.parse(files['manifest.json'].toString());
+  const received = manifest.documents.find((document: { id: string }) => document.id === first.capture.id);
+  assert.equal(received.provenance, 'new-demo-receiving'); assert.equal(received.sourceDocumentId, pickup.capture.id);
+  assert.deepEqual(received.receiving, details); assert.deepEqual(files[received.archivePath], receivingBytes);
+  const pickedUp = manifest.documents.find((document: { id: string }) => document.id === pickup.capture.id);
+  assert.deepEqual(files[pickedUp.archivePath], pickupBytes); assert.deepEqual(files['original-evidence/RS-417652.pdf'], sourceBytes);
+  assert.match(files['summary.txt'].toString(), /NEW DEMO RECEIVING/);
 });

@@ -1,7 +1,8 @@
-export type DocumentKind = 'bol' | 'scan' | 'invoice' | 'demo-pickup';
+export type DocumentKind = 'bol' | 'scan' | 'invoice' | 'demo-pickup' | 'demo-receiving';
+export interface ReceivingDetails { receiverName: string; receivedDate: string; palletsReceived: number; exceptions: string; }
 export interface DocumentRecord {
   id: string; shipmentId: string; kind: DocumentKind; name: string; url: string;
-  createdAt?: string; sha256?: string; captureId?: string;
+  createdAt?: string; sha256?: string; captureId?: string; sourceDocumentId?: string; receiving?: ReceivingDetails;
 }
 export interface Shipment {
   id: string; shipDate: string; plant: string; customer: string; destination: string;
@@ -9,8 +10,10 @@ export interface Shipment {
   pallets: number; totalWeightLb: number; freightTerms: string; documents: DocumentRecord[];
 }
 export type AssessmentStatus = 'ready' | 'needs-evidence' | 'investigate';
+export interface AssessmentCitation { sourceDocumentId: string; pageNumber: number; }
 export interface Assessment {
   deductionId: string; status: AssessmentStatus; note: string;
+  citations?: AssessmentCitation[];
   sourceDocumentId?: string; pageNumber?: number; updatedAt: string;
 }
 export interface Deduction {
