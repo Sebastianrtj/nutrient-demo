@@ -1,0 +1,130 @@
+.app-shell--accounting-case{height:100dvh;overflow:hidden}
+.app-shell--accounting-case .app-header{flex-shrink:0}
+.app-shell--accounting-case .app-content{display:flex;min-height:0;overflow:hidden}
+.app-shell--accounting-case .app-footer{display:none}
+.workspace.accounting-workspace{display:flex;flex-direction:column;min-height:0;flex:1;width:100%;padding:16px 24px 18px;overflow:hidden}
+.accounting-workspace .case-context{flex-shrink:0;border-bottom:1px solid #dddddd;padding-bottom:13px;margin-bottom:16px}
+.case-context .case-topline{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:10px;color:#727272;margin-bottom:8px}
+.case-context .case-topline a{display:inline-flex;align-items:center;gap:6px;color:#727272;min-height:24px}
+.case-context .case-headline{display:flex;align-items:center;justify-content:space-between;gap:24px}
+.case-context .case-title{display:flex;align-items:baseline;gap:16px;min-width:0}
+.case-context .case-title h1{font-size:24px;line-height:1.2;letter-spacing:-.5px;white-space:nowrap}
+.case-context .case-id{font-size:13px;color:#727272;font-variant-numeric:tabular-nums}
+.case-context .case-total{display:flex;align-items:baseline;gap:16px;flex-shrink:0}
+.case-context .case-total strong{font-size:25px;font-weight:500;line-height:1.2;letter-spacing:-.6px;font-variant-numeric:tabular-nums}
+.case-context .case-total>span{font-size:11px;color:#727272;white-space:nowrap}
+.case-context .case-reason{font-size:12px;line-height:1.5;color:#646464;margin-top:9px;overflow-wrap:anywhere}
+.case-context .case-reason>span{color:#727272}
+.case-context .case-identity{display:flex;align-items:baseline;flex-wrap:wrap;gap:5px 23px;margin:9px 0 0;font-size:11px}
+.case-context .case-identity>div{display:flex;align-items:baseline;gap:7px;min-width:0}
+.case-context .case-identity dt{color:#727272;font-size:10px}
+.case-context .case-identity dd{margin:0;color:#727272;overflow-wrap:anywhere}
+.case-context .case-identity a{display:inline-flex;align-items:center;gap:5px;color:#525252}
+.case-context .case-identity a:hover{text-decoration:underline}
+.accounting-workspace .case-notice{margin-bottom:12px;flex-shrink:0}
+.accounting-workspace .case-notice .notice{font-size:11px;padding:8px 12px}
+.accounting-workspace .case-panel-tabs{display:none}
+.accounting-workspace .accounting-case-layout{display:grid;grid-template-columns:minmax(0,1fr) 344px;grid-template-rows:minmax(0,1fr) auto;grid-template-areas:"document assessment" "document actions";gap:0 20px;flex:1;min-height:0;position:relative}
+.accounting-workspace .accounting-case-layout>.document-column{grid-area:document;display:flex;flex-direction:column;height:100%;min-height:0}
+.accounting-workspace .source-switcher,.accounting-workspace .document-caption,.accounting-workspace .document-note{flex-shrink:0}
+.accounting-workspace .pdf-pane{flex:1;min-height:0;height:auto}
+.accounting-workspace .document-note{font-size:10px;padding:8px 13px;line-height:1.45}
+.accounting-workspace .assessment-rail{grid-area:assessment;display:flex;flex-direction:column;min-height:0;height:100%;overflow:hidden;background:#fff;border:1px solid #e0e0e0;border-bottom:0;border-radius:4px 4px 0 0}
+.accounting-workspace .assessment-scroll{overflow-y:auto;min-height:0;flex:1;padding:19px 20px 8px;scrollbar-width:thin;scrollbar-gutter:stable;overscroll-behavior:contain;scroll-padding:16px}
+.accounting-workspace .assessment-heading h2{font-size:18px;line-height:1.3;margin:0 0 5px}
+.accounting-workspace .assessment-heading p{font-size:11px;color:#727272;margin-bottom:15px}
+.accounting-workspace .draft-recovery-note{font-size:10px;color:#727272;line-height:1.5;margin:-3px 0 12px}
+.accounting-workspace .draft-recovery-note--warning{color:#936331}
+.accounting-workspace .case-evidence-notes{border-top:1px solid #eaeaea;border-bottom:1px solid #eaeaea;margin:0 0 14px;color:#727272;font-size:10px}
+.accounting-workspace .case-evidence-notes summary{cursor:pointer;min-height:40px;display:flex;align-items:center;justify-content:space-between;gap:8px;list-style:none}
+.accounting-workspace .case-evidence-notes summary::-webkit-details-marker{display:none}
+.accounting-workspace .case-evidence-notes summary:after{content:"+";color:#727272;font-size:15px}
+.accounting-workspace .case-evidence-notes[open] summary:after{content:"−"}
+.accounting-workspace .case-evidence-notes summary>span{font-size:11px}
+.accounting-workspace .case-evidence-notes .status{font-size:11px}
+.accounting-workspace .case-evidence-notes>div{padding:0 0 12px;color:#8d6a38;line-height:1.6}
+.accounting-workspace .case-evidence-notes p+p{margin-top:7px}
+.accounting-workspace .missing-evidence-note{font-size:11px;line-height:1.5;color:#936331;margin:-3px 0 13px}
+.accounting-workspace .outcome-fieldset{margin-bottom:15px;gap:1px}
+.accounting-workspace .outcome-option{padding-top:10px;padding-bottom:10px}
+.accounting-workspace .outcome-title{font-size:12px}
+.accounting-workspace .outcome-description{font-size:10px}
+.accounting-workspace .follow-up-fields{margin:0 0 15px}
+.accounting-workspace .follow-up-fields select{font-size:12px;min-height:44px}
+.accounting-workspace textarea{font-size:12px;min-height:100px;resize:vertical}
+.accounting-workspace .citation-fields{margin-top:13px}
+.accounting-workspace .citation-fields select{font-size:11px;min-height:40px}
+.accounting-workspace .citation-fields .source-citation{margin-bottom:0;font-size:10px;min-height:40px}
+.accounting-workspace .assessment-actions{grid-area:actions;padding:12px 16px 13px;background:#fff;border:1px solid #e0e0e0;border-top:1px solid #e3e3e3;border-radius:0 0 4px 4px;min-width:0;z-index:2}
+.accounting-workspace .assessment-save-state{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:10px;color:#727272;margin-bottom:9px;min-height:15px;font-variant-numeric:tabular-nums}
+.accounting-workspace .assessment-save-state span{font-size:10px;color:#727272}
+.accounting-workspace .assessment-action-buttons{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.accounting-workspace .assessment-action-buttons .button{min-height:56px;padding:8px 9px;font-size:12px;gap:6px}
+.accounting-workspace .assessment-actions .microcopy{font-size:10px;line-height:1.5;margin:8px 0 0;color:#727272}
+.accounting-workspace .assessment-actions .save-confirmation{font-size:10px;line-height:1.5;margin:0 0 9px;min-height:15px}
+.accounting-workspace .assessment-actions .notice{font-size:11px;padding:8px 10px;margin-bottom:10px}
+.accounting-workspace .draft-dot{width:5px;height:5px;border-radius:50%;background:#9b6b32;margin-left:1px}
+@media(max-width:1190px){
+ .accounting-workspace .accounting-case-layout{grid-template-columns:minmax(0,1fr) 310px;gap:0 16px}
+ .accounting-workspace .assessment-scroll{padding-left:17px;padding-right:17px}
+ .accounting-workspace .assessment-actions{padding-left:13px;padding-right:13px}
+ .accounting-workspace .assessment-action-buttons .action-icon{display:none}
+ .case-context .case-total{flex-direction:column;align-items:flex-end;gap:3px}
+ .case-context .case-total>span{font-size:10px}
+}
+@media(max-width:900px){
+ .workspace.accounting-workspace{padding:12px 20px 16px}
+ .accounting-workspace .case-context{margin-bottom:12px}
+ .case-context .case-title h1{font-size:23px}
+ .accounting-workspace .case-panel-tabs{display:flex;gap:22px;flex-shrink:0;border-bottom:1px solid #dedede;margin-bottom:12px}
+ .accounting-workspace .case-panel-tabs button{display:flex;align-items:center;gap:7px;min-height:42px;border:0;border-bottom:2px solid transparent;border-radius:0;background:none;padding:7px 3px;color:#727272;font-size:12px}
+ .accounting-workspace .case-panel-tabs button[aria-selected=true]{color:#525252;border-bottom-color:#525252;font-weight:500}
+ .accounting-workspace .accounting-case-layout{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto;grid-template-areas:"workspace" "actions";gap:0}
+ .accounting-workspace .accounting-case-layout>.document-column,.accounting-workspace .assessment-rail{grid-area:workspace;border-radius:4px 4px 0 0;border-bottom:0}
+ .accounting-workspace[data-panel=evidence] .assessment-rail{visibility:hidden;pointer-events:none}
+ .accounting-workspace[data-panel=assessment] .document-column{visibility:hidden;pointer-events:none}
+ .accounting-workspace .assessment-scroll{padding:18px 22px 12px}
+ .accounting-workspace .assessment-actions{padding:10px 20px 12px}
+ .accounting-workspace .assessment-action-buttons .button{font-size:13px}
+ .accounting-workspace .assessment-action-buttons .action-icon{display:block}
+ .accounting-workspace .assessment-heading p{margin-bottom:12px}
+ .accounting-workspace .outcome-option{margin:0;padding:10px 11px}
+ .accounting-workspace .case-evidence-notes summary{justify-content:flex-start}
+ .accounting-workspace .assessment-actions .microcopy{margin-top:7px}
+}
+@media(max-width:600px){
+ .workspace.accounting-workspace{padding:9px 14px 12px}
+ .accounting-workspace .case-context{padding-bottom:10px;margin-bottom:8px}
+ .case-context .case-topline{font-size:9px;margin-bottom:6px}
+ .case-context .case-topline a{font-size:10px;min-height:22px}
+ .case-context .case-headline{gap:12px;align-items:flex-start}
+ .case-context .case-title{display:block}
+ .case-context .case-title h1{font-size:20px;letter-spacing:-.4px}
+ .case-context .case-id{display:block;font-size:11px;margin-top:4px}
+ .case-context .case-total strong{font-size:22px;letter-spacing:-.4px}
+ .case-context .case-total>span{font-size:8px;line-height:1.45;max-width:135px;white-space:normal;text-align:right}
+ .case-context .case-reason{font-size:10px;line-height:1.45;margin-top:8px}
+ .case-context .case-reason>span{display:none}
+ .case-context .case-identity{gap:3px 14px;margin-top:7px;font-size:10px}
+ .case-context .case-identity>div{gap:5px}
+ .case-context .case-identity dt{font-size:9px}
+ .case-context .case-po{display:none}
+ .accounting-workspace .case-panel-tabs{gap:20px;margin-bottom:9px}
+ .accounting-workspace .case-panel-tabs button{font-size:11px;min-height:39px}
+ .accounting-workspace .case-panel-tabs svg{width:14px;height:14px}
+ .accounting-workspace .assessment-scroll{padding:16px 16px 10px}
+ .accounting-workspace .assessment-heading h2{font-size:17px}
+ .accounting-workspace .outcome-title{font-size:12px}
+ .accounting-workspace .outcome-description{font-size:10px}
+ .accounting-workspace .outcome-option{padding:11px 8px}
+ .accounting-workspace .outcome-option input{width:16px;height:16px}
+ .accounting-workspace textarea{font-size:13px;min-height:100px}
+ .accounting-workspace .citation-fields select{font-size:12px;min-height:44px}
+ .accounting-workspace .assessment-actions{padding:9px 12px 10px}
+ .accounting-workspace .assessment-save-state,.accounting-workspace .assessment-save-state span{font-size:9px}
+ .accounting-workspace .assessment-action-buttons .button{min-height:52px;font-size:11px;padding:8px 7px;gap:5px}
+ .accounting-workspace .assessment-action-buttons .action-icon{width:14px;height:14px}
+ .accounting-workspace .assessment-actions .microcopy{font-size:9px;margin-top:6px}
+ .accounting-workspace .document-note{font-size:9px;line-height:1.4;padding:7px 10px}
+ .accounting-workspace .document-caption{font-size:9px}
+}

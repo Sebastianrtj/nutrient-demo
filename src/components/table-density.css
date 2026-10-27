@@ -1,0 +1,26 @@
+/* Keep queue density consistent without changing document workspaces. */
+.record-list.list-workspace { padding-top: 26px; }
+.record-list .page-heading { margin-bottom: 18px; }
+.record-list .record-results { min-height: 44px; padding: 6px 0; }
+.record-list .record-filters { padding: 16px 0; }
+
+@media (min-width: 961px) {
+  .record-list .data-table td { padding-top: 8px; padding-bottom: 8px; }
+  .record-list .row-title { min-height: 18px; line-height: 18px; }
+  .record-list .cell-detail { margin-top: 1px; line-height: 1.35; }
+  .record-list .accounting-queue__references,
+  .record-list .shipments__references { margin-top: 2px; line-height: 1.35; }
+  .record-list .record-sort-heading { min-height: 40px; }
+}
+
+@media (max-width: 960px) {
+  .record-list .data-table tbody { gap: 8px; }
+  .record-list .data-table tr { gap: 6px 12px; padding: 12px 14px 48px; }
+  .record-list .data-table .row-title { min-height: 24px; }
+  .record-list .data-table .row-action { bottom: 2px; }
+}
+
+@media (max-width: 600px) {
+  .record-list.list-workspace { padding-top: 20px; }
+  .record-list .record-results { min-height: 44px; padding: 6px 0; }
+}

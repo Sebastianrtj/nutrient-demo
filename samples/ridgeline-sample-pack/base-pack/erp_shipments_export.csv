@@ -1,0 +1,41 @@
+shipper_no,ship_date,plant,customer,ship_to_city,customer_po,asn_id,invoice_no,carrier,pallets,total_weight_lb,freight_terms
+RS-417620,2026-07-06,P02,Northgate Building Supply,"Varden, MN",NBS 0819-01,,INV-2104400,Halvorsen Trucking Co.,12,15464,Prepaid & Add
+RS-417652,2026-07-07,P10,BuildRight Depot,"Kenmore Falls, OH",BR401022449,ASN-60319184,INV-2104464,"Tamarack Flatbed, Inc.",9,8730,Collect
+RS-417713,2026-07-09,P08,Lakeshore Builders Supply,"Port Calloway, MI",4447-DW,,INV-2104505,Prairie Line Logistics,12,14760,Prepaid & Add
+RS-417741,2026-07-09,P03,BuildRight Depot,"Stanwick, WI",BR401070267,ASN-60319521,INV-2104551,Ironbridge Carriers Inc.,7,5790,Collect
+RS-417764,2026-07-10,P08,BuildRight Depot,"Merritt Springs, NC",BR401224243,ASN-60319827,INV-2104613,Halvorsen Trucking Co.,11,13506,Collect
+RS-417875,2026-07-14,P11,Homestead Supply Co.,"Mercer Hollow, PA",HS-PO-31893954,ASN-60320111,INV-2104638,Prairie Line Logistics,15,17114,Prepaid
+RS-417925,2026-07-15,P04,BuildRight Depot,"Garland Prairie, MO",BR401364822,ASN-60320405,INV-2104677,"Tamarack Flatbed, Inc.",18,21324,Collect
+RS-417931,2026-07-16,P08,Homestead Supply Co.,"Carrow Valley, TX",HS-PO-31895914,ASN-60320630,INV-2104734,"Kestrel Freight Lines, Inc.",12,14148,Prepaid
+RS-417961,2026-07-17,P04,Northgate Building Supply,"Varden, MN",NBS 0819-09,,INV-2104767,Blue Mesa Transport LLC,9,11510,Prepaid & Add
+RS-418062,2026-07-20,P09,Tri-County Lumber,"Hadley Station, PA",TCL-56952,,INV-2104806,Ironbridge Carriers Inc.,14,28540,Prepaid & Add
+RS-418101,2026-07-21,P03,BuildRight Depot,"Hollis Grove, GA",BR401453172,ASN-60320852,INV-2104834,"Kestrel Freight Lines, Inc.",13,13026,Collect
+RS-418163,2026-07-23,P03,BuildRight Depot,"Merritt Springs, NC",BR401521739,ASN-60321084,INV-2104900,Ironbridge Carriers Inc.,8,6240,Collect
+RS-418173,2026-07-23,P05,Tri-County Lumber,"Garrison Falls, PA",TCL-55235,,INV-2104963,Blue Mesa Transport LLC,9,17418,Prepaid & Add
+RS-418179,2026-07-24,P04,Homestead Supply Co.,"Ellison Park, TN",HS-PO-31904481,ASN-60321338,INV-2105024,Prairie Line Logistics,8,10104,Prepaid
+RS-418300,2026-07-27,P10,Homestead Supply Co.,"Dunmore Heights, IN",HS-PO-31907656,ASN-60321412,INV-2105053,Prairie Line Logistics,14,12684,Prepaid
+RS-418312,2026-07-28,P09,Homestead Supply Co.,"Dunmore Heights, IN",HS-PO-31909892,ASN-60321486,INV-2105118,Blue Mesa Transport LLC,7,12394,Prepaid
+RS-418383,2026-07-30,P03,Lakeshore Builders Supply,"Port Calloway, MI",4499-DW,,INV-2105185,"Tamarack Flatbed, Inc.",14,14988,Prepaid & Add
+RS-418402,2026-07-31,P03,Homestead Supply Co.,"Brookfield Ridge, OH",HS-PO-31914972,ASN-60321683,INV-2105252,Ironbridge Carriers Inc.,8,6816,Prepaid
+RS-418420,2026-07-31,P03,BuildRight Depot,"Stanwick, WI",BR401543146,ASN-60322001,INV-2105298,"Kestrel Freight Lines, Inc.",3,2286,Collect
+RS-418489,2026-08-03,P08,Northgate Building Supply,"Varden, MN",NBS 0804-06,,INV-2105356,Blue Mesa Transport LLC,20,23484,Prepaid & Add
+RS-418534,2026-08-04,P09,Homestead Supply Co.,"Carrow Valley, TX",HS-PO-31918147,ASN-60322277,INV-2105402,Halvorsen Trucking Co.,14,24804,Prepaid
+RS-418543,2026-08-04,P11,Lakeshore Builders Supply,"Port Calloway, MI",4490-JM,,INV-2105423,Blue Mesa Transport LLC,13,16746,Prepaid & Add
+RS-418558,2026-08-05,P05,BuildRight Depot,"Merritt Springs, NC",BR401692368,ASN-60322460,INV-2105483,"Kestrel Freight Lines, Inc.",6,9632,Collect
+RS-418604,2026-08-06,P04,BuildRight Depot,"Kenmore Falls, OH",BR401836948,ASN-60322615,INV-2105536,Blue Mesa Transport LLC,13,15962,Collect
+RS-418640,2026-08-06,P04,Homestead Supply Co.,"Dunmore Heights, IN",HS-PO-31927929,ASN-60322775,INV-2105590,Blue Mesa Transport LLC,15,19274,Prepaid
+RS-418641,2026-08-07,P10,Homestead Supply Co.,"Brookfield Ridge, OH",HS-PO-31931543,ASN-60323124,INV-2105627,Ironbridge Carriers Inc.,8,12576,Prepaid
+RS-418756,2026-08-11,P09,Tri-County Lumber,"Hadley Station, PA",TCL-56411,,INV-2105648,Blue Mesa Transport LLC,10,19260,Prepaid & Add
+RS-418771,2026-08-12,P03,Homestead Supply Co.,"Carrow Valley, TX",HS-PO-31933114,ASN-60323483,INV-2105675,Prairie Line Logistics,8,6240,Prepaid
+RS-418806,2026-08-13,P06,Homestead Supply Co.,"Carrow Valley, TX",HS-PO-31937095,ASN-60323736,INV-2105744,Halvorsen Trucking Co.,8,17584,Prepaid
+RS-418811,2026-08-13,P02,Homestead Supply Co.,"Dunmore Heights, IN",HS-PO-31946044,ASN-60323877,INV-2105781,Prairie Line Logistics,10,11980,Prepaid
+RS-418931,2026-08-17,P05,Tri-County Lumber,"Hadley Station, PA",TCL-56523,,INV-2105843,Halvorsen Trucking Co.,10,17580,Prepaid & Add
+RS-418955,2026-08-18,P04,BuildRight Depot,"Hollis Grove, GA",BR401943677,ASN-60324105,INV-2105880,Halvorsen Trucking Co.,18,22856,Collect
+RS-418994,2026-08-19,P06,Homestead Supply Co.,"Ellison Park, TN",HS-PO-31952255,ASN-60324479,INV-2105926,"Kestrel Freight Lines, Inc.",7,15342,Prepaid
+RS-419071,2026-08-21,P11,Homestead Supply Co.,"Dunmore Heights, IN",HS-PO-31957919,ASN-60324592,INV-2105981,Ironbridge Carriers Inc.,7,6810,Prepaid
+RS-419141,2026-08-24,P08,Homestead Supply Co.,"Dunmore Heights, IN",HS-PO-31965224,ASN-60324873,INV-2106030,Blue Mesa Transport LLC,6,5596,Prepaid
+RS-419176,2026-08-25,P06,BuildRight Depot,"Merritt Springs, NC",BR402034632,ASN-60324915,INV-2106063,Halvorsen Trucking Co.,11,21222,Collect
+RS-419207,2026-08-26,P03,Tri-County Lumber,"Hadley Station, PA",TCL-56599,,INV-2106095,Blue Mesa Transport LLC,9,11898,Prepaid & Add
+RS-419247,2026-08-27,P05,BuildRight Depot,"Hollis Grove, GA",BR402182272,ASN-60325264,INV-2106154,Prairie Line Logistics,11,20542,Collect
+RS-419284,2026-08-28,P10,BuildRight Depot,"Kenmore Falls, OH",BR402321379,ASN-60325385,INV-2106199,Blue Mesa Transport LLC,10,12600,Collect
+RS-419288,2026-08-28,P01,BuildRight Depot,"Merritt Springs, NC",BR402468887,ASN-60325665,INV-2106234,Ironbridge Carriers Inc.,7,8142,Collect

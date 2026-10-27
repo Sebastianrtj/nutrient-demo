@@ -1,0 +1,7 @@
+.signing-section .acknowledgement-link { margin: 4px 0 18px; font-size: 12px; }
+.signature-preview-status { min-height: 36px; display: flex; align-items: center; margin: 5px 0 6px; }
+.signature-preview-status .microcopy { margin: 0; }
+.signature-preview-status .status { font-size: 11px; }
+.signing-section .signature-label > span { font-size: 12px; }
+.signing-section .notice { margin-bottom: 12px; }
+.signing-body,.signing-actions { display:contents; }

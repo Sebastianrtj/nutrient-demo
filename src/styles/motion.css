@@ -1,0 +1,145 @@
+/* Ridgeline motion handoff · four shared springs, installed by App with linear() fallback. */
+:root{--sp-snap:cubic-bezier(.22,1,.36,1);--sp-snap-d:254ms;--sp-glide:cubic-bezier(.22,1,.36,1);--sp-glide-d:225ms;--sp-travel:cubic-bezier(.22,1,.36,1);--sp-travel-d:467ms;--sp-pop:cubic-bezier(.22,1,.36,1);--sp-pop-d:333ms;--press-d:90ms}
+/* 16A · scale is independent of transforms used by gliders and flights. */
+.app-shell :is(.button,.text-button,.icon-button,.record-filter-toggle,.record-chips button,.record-sort-heading,.source-tab,.case-panel-tabs button){transition:scale var(--sp-pop-d) var(--sp-pop),background-color 160ms,border-color 160ms,color 160ms}
+.app-shell :is(.button,.text-button,.icon-button,.record-filter-toggle,.record-chips button,.record-sort-heading,.source-tab,.case-panel-tabs button):active:not(:disabled){scale:.975;transition-duration:var(--press-d);transition-timing-function:cubic-bezier(.3,0,.2,1)}
+/* 17A · one masthead rule, with workspaces shifting behind it. */
+.main-nav{position:relative}
+.main-nav .nav-link--active:after{content:none}
+.nav-rule{view-transition-name:workspace-rule;position:absolute;bottom:0;height:3px;background:var(--teal);pointer-events:none}
+::view-transition-group(workspace-rule){animation-duration:var(--sp-glide-d);animation-timing-function:var(--sp-glide)}
+::view-transition-old(workspace-rule){display:none}
+::view-transition-new(workspace-rule){animation:none}
+.app-content{view-transition-name:app-content}
+::view-transition-group(app-content){animation-duration:var(--sp-snap-d)}
+::view-transition-old(app-content),::view-transition-new(app-content){mix-blend-mode:normal}
+html[data-nav=nav]::view-transition-old(app-content){animation:vt-out 140ms ease-in both;--vt-x:-8px}
+html[data-nav=nav]::view-transition-new(app-content){animation:vt-in var(--sp-snap-d) var(--sp-snap) both;--vt-x:8px}
+html[data-nav=nav][data-dir=back]::view-transition-old(app-content){--vt-x:8px}
+html[data-nav=nav][data-dir=back]::view-transition-new(app-content){--vt-x:-8px}
+/* 6C · same queue state and scroll on return, with a temporary row bookmark. */
+html[data-nav=push]::view-transition-old(app-content){animation:vt-out 180ms ease-in both;--vt-x:-24px}
+html[data-nav=push]::view-transition-new(app-content){animation:vt-in var(--sp-snap-d) var(--sp-snap) 50ms both;--vt-x:24px}
+html[data-nav=pop]::view-transition-old(app-content){animation:vt-out 180ms ease-in both;--vt-x:24px}
+html[data-nav=pop]::view-transition-new(app-content){animation:vt-in var(--sp-snap-d) var(--sp-snap) 50ms both;--vt-x:-24px}
+@keyframes vt-out{to{opacity:0;transform:translateX(var(--vt-x))}}
+@keyframes vt-in{from{opacity:0;transform:translateX(var(--vt-x))}}
+.shipment-table .is-returning>td:first-child{position:relative}
+.shipment-table .is-returning>td:first-child:before{content:"";position:absolute;left:0;top:8px;bottom:8px;width:3px;background:var(--teal);transform-origin:top;animation:bookmark 1300ms cubic-bezier(.2,.7,.3,1) 120ms both;pointer-events:none}
+@keyframes bookmark{0%{transform:scaleY(0)}30%,75%{transform:none;opacity:1}100%{opacity:0}}
+/* 2A · record identity and current source travel across the real route change. */
+html[data-nav=record] .document-heading .shipment-reference,html[data-nav=record] .case-identity dd a{view-transition-name:shipment-ref}
+html[data-nav=record] .source-tab--active{view-transition-name:active-source}
+html[data-nav=record]::view-transition-old(app-content){animation:vt-fade-out 160ms ease-in both}
+html[data-nav=record]::view-transition-new(app-content){animation:vt-fade-in var(--sp-snap-d) var(--sp-snap) both}
+::view-transition-group(shipment-ref),::view-transition-group(active-source){animation-duration:var(--sp-travel-d);animation-timing-function:var(--sp-travel)}
+@keyframes vt-fade-in{from{opacity:0}}
+@keyframes vt-fade-out{to{opacity:0}}
+/* 3A / 13A · a single source rule; old PDF disappears under a new label immediately. */
+.source-switcher{position:relative}
+.source-switcher .source-tab--active:after{content:none}
+.source-rule{position:absolute;bottom:0;height:2px;border-radius:1px;background:var(--teal);pointer-events:none;z-index:2}
+.pdf-pane[data-state=loading] .pdf-mount{opacity:0}
+.pdf-pane[data-state=ready] .pdf-mount{animation:page-in 200ms cubic-bezier(.2,0,0,1)}
+@keyframes page-in{from{opacity:0;transform:translateY(2px)}}
+/* 9A · paper rather than a percentage. The real SDK still controls readiness. */
+.pdf-loading{gap:23px}
+.breathing-paper{width:min(44%,230px);aspect-ratio:612/792;background:#fff;border:1px solid #dededb;box-shadow:0 3px 15px rgb(16 30 38 / .05);padding:clamp(18px,4vw,36px) clamp(14px,3vw,26px);display:flex;flex-direction:column;gap:13px;animation:paper-breathe 1.6s ease-in-out infinite}
+.breathing-paper span{display:block;height:3px;min-height:3px;background:#e5e8e5}
+.breathing-paper span:nth-child(2){width:70%}.breathing-paper span:nth-child(4){width:80%;margin-top:25px}
+@keyframes paper-breathe{50%{opacity:.5;transform:translateY(-2px)}}
+/* 1C + 14B · real stages, one node, same paused thread on retry. */
+.transfer-track{position:relative}
+.transfer-track ol{list-style:none;padding:0;margin:0}
+.transfer-track__step{display:grid;grid-template-columns:16px minmax(0,1fr) auto;gap:10px;align-items:center;height:30px;font-size:12px;color:var(--muted)}
+.transfer-track__mark{width:14px;height:14px;border-radius:50%;border:1.5px solid #cdd5d2;background:#fff;display:grid;place-items:center;color:#fff;font-size:9px;font-weight:700;position:relative}
+.transfer-track__step[data-state=done] .transfer-track__mark{background:var(--teal);border-color:var(--teal)}
+.transfer-track__step[data-state=done] svg{animation:track-pop var(--sp-pop-d) var(--sp-pop) backwards}
+.transfer-track__step[data-state=paused] .transfer-track__mark{background:#f8eddb;border-color:var(--warning);color:var(--warning);animation:track-pop var(--sp-pop-d) var(--sp-pop) backwards}
+.transfer-track__step[data-state=current] .transfer-track__label{color:var(--teal)}
+.transfer-track__line{position:absolute;left:6.5px;top:15px;width:1.5px;height:60px;background:var(--line)}
+.transfer-track__fill{position:absolute;left:0;top:0;width:100%;height:0;background:var(--teal)}
+.transfer-track__node{position:absolute;z-index:2;border-radius:50%;border:1.5px solid var(--teal);box-shadow:0 0 0 3px rgb(34 94 101 / .1);pointer-events:none}
+.transfer-track__node[data-paused]{border-color:var(--warning)}
+.transfer-track__meta{font-size:10px;color:var(--muted)}
+@keyframes track-pop{from{opacity:0;transform:scale(.5)}}
+.receipt-section--arrive{transform-origin:50% 0;animation:receipt-unfold var(--sp-travel-d) var(--sp-travel) 380ms backwards}
+@keyframes receipt-unfold{from{opacity:0;transform:perspective(600px) rotateX(-14deg) translateY(-4px)}}
+/* 7B · action semantics stay native while one fill changes its emphasis. */
+.accounting-workspace .assessment-action-buttons{position:relative;isolation:isolate}
+.accounting-workspace .assessment-action-buttons .action-emphasis{position:absolute;z-index:-1;border-radius:4px;background:var(--teal);pointer-events:none}
+.accounting-workspace .assessment-action-buttons .button{position:relative;background:transparent;transition:scale var(--sp-pop-d) var(--sp-pop),border-color 160ms,color 160ms calc(var(--sp-glide-d) * .35)}
+.accounting-workspace .assessment-action-buttons .button--primary{border-color:transparent;color:#fff}
+.accounting-workspace .assessment-action-buttons .button--secondary{border-color:#cdd5d2;color:var(--slate)}
+.accounting-workspace .assessment-action-buttons .button--primary:hover:not(:disabled){background:rgb(0 0 0 / .08)}
+/* 15A · one selected surface, never a guessed initial outcome. */
+.accounting-workspace .outcome-fieldset{position:relative;isolation:isolate}
+.outcome-options{position:relative;isolation:isolate;display:flex;flex-direction:column;gap:1px}
+.outcome-surface{position:absolute;z-index:-1;border-radius:4px;background:#f2f7f4;border:1px solid #d8e5de;pointer-events:none}
+.accounting-workspace .outcome-option--selected{background:transparent;border-color:transparent}
+.accounting-workspace .outcome-option input:checked{animation:radio-pop var(--sp-pop-d) var(--sp-pop)}
+@keyframes radio-pop{from{transform:scale(.7)}}
+/* 4C / 5B / 8B · body overlays are always decorative, inert and self removing. */
+.motion-flight,.motion-ink-flight,.motion-citation-flight,.motion-packet-page{position:fixed;z-index:1000;pointer-events:none;transform-origin:0 0}
+.motion-ink-flight svg{display:block;width:100%;height:100%;overflow:visible}
+.motion-citation-flight{padding:7px 11px;border:1px solid #d8e5de;border-radius:4px;background:#fff;color:var(--teal);font:500 11px Inter,Arial,sans-serif;white-space:nowrap}
+.motion-packet-page{width:34px;height:43px;border:1px solid #a5bbb5;border-radius:2px;background:repeating-linear-gradient(#fff 0 7px,#d8e5de 8px 9px,#fff 10px 14px);box-shadow:0 3px 8px rgb(16 30 38 / .12)}
+.tray-drop{display:flex;animation:tray-drop var(--sp-pop-d) var(--sp-pop) 60ms backwards}
+@keyframes tray-drop{from{opacity:0;transform:translateY(-7px)}}
+/* 10A / 11A / 12B · transform rows; never hold up final search/order semantics. */
+.sort-arrow{transition:transform var(--sp-pop-d) var(--sp-pop)}
+.sort-arrow[data-dir=asc]{transform:rotate(180deg)}
+.shipment-table mark{animation:search-hit 160ms ease-out}
+@keyframes search-hit{from{background-color:transparent}}
+.rolling-number{display:inline-flex;font-variant-numeric:tabular-nums}
+.rolling-number .digit{position:relative;display:inline-block;min-width:.6em;height:1.5em;overflow:hidden;vertical-align:bottom}
+.rolling-number .digit i{font-style:normal;display:block}.rolling-number .digit i+i{position:absolute;inset:0}
+.motion-row-exit{z-index:3;pointer-events:none;overflow:hidden;background:#fff}
+.motion-row-exit table{margin:0;min-width:0}
+/* 18A · native disclosures keep keyboard and accessibility behavior. */
+@supports (interpolate-size:allow-keywords){
+ .app-shell details{interpolate-size:allow-keywords}
+ .app-shell details::details-content{block-size:0;overflow:hidden;transition:block-size var(--sp-snap-d) var(--sp-snap),content-visibility var(--sp-snap-d) allow-discrete}
+ .app-shell details[open]::details-content{block-size:auto}
+}
+.app-shell details summary::marker{color:var(--muted)}
+.app-shell details summary{list-style:none;display:flex;align-items:center;gap:7px}
+.app-shell details summary::-webkit-details-marker{display:none}
+.app-shell details summary:before{content:"";width:5px;height:5px;border-right:1px solid currentColor;border-bottom:1px solid currentColor;transform:rotate(-45deg);transition:transform var(--sp-snap-d) var(--sp-snap);flex:none}
+.app-shell details[open] summary:before{transform:rotate(45deg)}
+.accounting-workspace .case-evidence-notes summary:after{content:none}
+.accounting-workspace .case-evidence-notes summary{justify-content:flex-start}
+.app-shell details[open]>:not(summary){animation:disclosure-child var(--sp-snap-d) var(--sp-snap) 12ms backwards}
+@keyframes disclosure-child{from{opacity:0;transform:translateY(-2px)}}
+/* 20C · same mounted viewer and scroll; hidden panel leaves tab order. */
+@media(max-width:900px){
+ .task-rail:has(.transfer-track-section){display:block}
+ .accounting-workspace .assessment-rail{z-index:1;border-radius:10px 10px 0 0;box-shadow:0 -8px 24px rgb(16 30 38 / .14);transition:transform var(--sp-travel-d) var(--sp-travel),opacity 200ms ease,box-shadow 260ms ease,visibility 0s}
+ .accounting-workspace[data-panel=evidence] .assessment-rail{transform:translateY(24px);opacity:0;box-shadow:none;transition:transform 200ms cubic-bezier(.4,0,1,1),opacity 200ms ease,box-shadow 200ms ease,visibility 0s linear 200ms}
+ .accounting-workspace .accounting-case-layout>.document-column{transform-origin:50% 0;transition:transform var(--sp-snap-d) var(--sp-snap),filter 260ms ease,visibility 0s}
+ .accounting-workspace[data-panel=assessment] .accounting-case-layout>.document-column{transform:scale(.97);filter:brightness(.9);transition:transform var(--sp-travel-d) var(--sp-travel),filter 260ms ease,visibility 0s linear var(--sp-travel-d)}
+}
+/* Movement is optional; work and semantics never are. */
+@media(prefers-reduced-motion:reduce){
+ .app-shell *,.app-shell *:before,.app-shell *:after{animation-duration:1ms;animation-delay:0ms;animation-iteration-count:1;transition-duration:1ms;transition-delay:0ms;scroll-behavior:auto}
+ .app-shell :is(.button,.text-button,.icon-button,.record-filter-toggle,.record-chips button,.record-sort-heading,.source-tab,.case-panel-tabs button):active:not(:disabled){scale:1;transition-duration:1ms}
+ .pdf-pane[data-state=ready] .pdf-mount{animation:vt-fade-in 120ms ease-out}
+ .breathing-paper{animation:none}
+ .accounting-workspace .assessment-action-buttons .button{transition:none}
+ .accounting-workspace .assessment-rail,.accounting-workspace .accounting-case-layout>.document-column,.accounting-workspace[data-panel=evidence] .assessment-rail,.accounting-workspace[data-panel=assessment] .accounting-case-layout>.document-column{transform:none;filter:none;transition:none}
+ .app-shell details::details-content{transition:none}
+ .receipt-section--arrive{animation:none}
+ .app-content,.nav-rule{view-transition-name:none}
+}
+@media(prefers-reduced-motion:reduce){
+ .accounting-workspace .outcome-option input:checked,
+ .transfer-track__step[data-state] .transfer-track__mark,
+ .transfer-track__step[data-state] svg,
+ .app-shell details[open]>:not(summary),
+ .shipment-table .is-returning>td:first-child:before{animation:none}
+}
+/* Keep the outgoing sheet's geometry until it has finished fading. */
+@media(max-width:900px) and (prefers-reduced-motion:no-preference){
+ .accounting-workspace .assessment-actions{transition:opacity 200ms ease,display 200ms allow-discrete}
+ .accounting-workspace[data-panel=evidence] .assessment-actions{opacity:0;pointer-events:none}
+}

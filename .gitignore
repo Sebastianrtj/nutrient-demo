@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.data/
+.env
+.env.*
+!.env.example
+public/nutrient-viewer-lib/
+.site-output/
+.worker-preview/
+.DS_Store
+worker/catalog.json
+worker/large-assets.json

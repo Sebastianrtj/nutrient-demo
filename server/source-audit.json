@@ -1,0 +1,1125 @@
+{
+  "auditedAt": "2026-10-27",
+  "sampleDate": "2026-10-01",
+  "counts": {
+    "shipments": 40,
+    "invoices": 40,
+    "bols": 40,
+    "scans": 25,
+    "deductions": 12
+  },
+  "documents": [
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-417620.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-417620",
+      "sha256": "840346069f6f121b1351d533559cbbabd95009b132e3106993bee61165021828",
+      "pages": 1,
+      "textCharacters": 2837,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-417652.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-417652",
+      "sha256": "6cd3d9099b57b9ce82306d22dab04b9c20c78c188e2ce1c9ff278a3ed691d435",
+      "pages": 1,
+      "textCharacters": 2855,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-417713.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-417713",
+      "sha256": "3444b874b808372002e1534d2bdabde7240a0b958262484b085b51a1b1dde04e",
+      "pages": 1,
+      "textCharacters": 2836,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-417741.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-417741",
+      "sha256": "aa8c6343fc5432ba32bf18d8c490541ecc8358032d499c22c3795593767442f2",
+      "pages": 1,
+      "textCharacters": 2848,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-417764.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-417764",
+      "sha256": "eefd32d63adeb0e654107eafa3aed0608e5bccc12ed278c211cf6e5e06e87ff2",
+      "pages": 1,
+      "textCharacters": 2866,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-417875.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-417875",
+      "sha256": "03d4fd53547034cee48f8dbe8cc2a166d11ffb9d86367aedc818e53cb56318e5",
+      "pages": 1,
+      "textCharacters": 2890,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-417925.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-417925",
+      "sha256": "3a6c9d6bd2da9edef32d35cb572858bab928495de279660db372882ed3eeb8dd",
+      "pages": 1,
+      "textCharacters": 2855,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-417931.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-417931",
+      "sha256": "7c92e11467f5fd142dd91939535bad71100a25b941fbbf6f6dfab39ec4b6ead8",
+      "pages": 1,
+      "textCharacters": 2979,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-417961.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-417961",
+      "sha256": "de83f287e716640b8b32b86b63f442f0e3794ed6041bdd91c3448aa3a23d326d",
+      "pages": 1,
+      "textCharacters": 2772,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-418062.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-418062",
+      "sha256": "dccacac513861ea806338586df80350b78997c43776f0cf1a83dbbc83a2277d8",
+      "pages": 1,
+      "textCharacters": 2894,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-418101.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-418101",
+      "sha256": "327dfe06e3fc2baae0e7524e5e19f560d1e1e9c5984e8bf8fcf10f883f4e1bde",
+      "pages": 1,
+      "textCharacters": 2860,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-418163.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-418163",
+      "sha256": "e3f9ec46587fb50e16b681f5c1a970ab16f9ab28c61f64b390df7c092e2cf465",
+      "pages": 1,
+      "textCharacters": 2862,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-418173.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-418173",
+      "sha256": "75a3b996930f059e0b70cb036bbadc7478b33d8058f8aa063d38570bfc8d6b05",
+      "pages": 1,
+      "textCharacters": 2827,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-418179.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-418179",
+      "sha256": "6fe82e8224696ca0f80d9e8619aea26765e443196f1afa07c8a4495391560d28",
+      "pages": 1,
+      "textCharacters": 2822,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-418300.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-418300",
+      "sha256": "0cc2b4f4c027530546cbb601227343ee91dbcbfb850d904ec808ece08160b6eb",
+      "pages": 1,
+      "textCharacters": 2753,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-418312.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-418312",
+      "sha256": "628905c13030bdacc57919bca54e1742aaef5c65cb0d40b1ce90bf96fae282ab",
+      "pages": 1,
+      "textCharacters": 2799,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-418383.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-418383",
+      "sha256": "dfc513ef2b4c78c88f302c2044c678026babab896a412b011e5bca2a35844435",
+      "pages": 1,
+      "textCharacters": 2832,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-418402.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-418402",
+      "sha256": "39a8168dea0868e2d6c03f9b8096206c8372c6cc11a0e20fa9235550f70fa28d",
+      "pages": 1,
+      "textCharacters": 2892,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-418420.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-418420",
+      "sha256": "6929cebda02fc665768cdd37921246725a17ee9d202f5c65e1b26c3b59e8f980",
+      "pages": 1,
+      "textCharacters": 2849,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-418489.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-418489",
+      "sha256": "1aefe89ace5fc340c33030aefc2c779cd494b8025cea3065c6ae238d5cc18af6",
+      "pages": 1,
+      "textCharacters": 2923,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-418534.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-418534",
+      "sha256": "e428fc0c0131c1daaee692246176eb7eb2492e1755ce5ab2765296e994f4fe6a",
+      "pages": 1,
+      "textCharacters": 2946,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-418543.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-418543",
+      "sha256": "612cce5fe4d0ae4ab194bc88c7047e01742744e15630700be91b3fcb4e1742ea",
+      "pages": 1,
+      "textCharacters": 2772,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-418558.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-418558",
+      "sha256": "e34338ab6fe4c1e274009eb558aaea703b18547b4ebaabcd1a77726c82889726",
+      "pages": 1,
+      "textCharacters": 2841,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-418604.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-418604",
+      "sha256": "40494f310cdf86ce6e861e12c4364adb33b0f8df7114e1a30a52fea997353eda",
+      "pages": 1,
+      "textCharacters": 2877,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-418640.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-418640",
+      "sha256": "22d343c97c3d62e31b8a73b3fc2d42704f8be23d8897984fc72fa9ebfa996a39",
+      "pages": 1,
+      "textCharacters": 2906,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-418641.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-418641",
+      "sha256": "433690aad3bba8cfe9bef6ecff28b538f04500e1c9a5f6f88d5f302cafb01b42",
+      "pages": 1,
+      "textCharacters": 2802,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-418756.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-418756",
+      "sha256": "1d1d91164758f632d511376cd14dc55433339eebe3c6c7f2f492b67b9ace9066",
+      "pages": 1,
+      "textCharacters": 2814,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-418771.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-418771",
+      "sha256": "62706eca4b56a1a1b90515f8cc3768e62b862692ab64a53a29f7fe540d93e11b",
+      "pages": 1,
+      "textCharacters": 2901,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-418806.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-418806",
+      "sha256": "6b12108ef927dd173f370b9b18fb96a10124a84eb9434033c54b54ff953e81b2",
+      "pages": 1,
+      "textCharacters": 2804,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-418811.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-418811",
+      "sha256": "dc859a73fb79039bb14f88d752c9b85038371e138a57ce3d3317ca60381ae454",
+      "pages": 1,
+      "textCharacters": 2806,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-418931.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-418931",
+      "sha256": "6b5f60b6dc89aa20b6c79d678ce571712c5a7c808adf3389b9916edee926ef26",
+      "pages": 1,
+      "textCharacters": 2754,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-418955.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-418955",
+      "sha256": "81c893531b051b5e23d93ac81742fba8116bf8eb940ae4df6130eb15ca8aafc3",
+      "pages": 1,
+      "textCharacters": 2941,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-418994.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-418994",
+      "sha256": "c2f6f054108d150834d684cb67bf56469354ee000ac451589f68b99aac0dd56c",
+      "pages": 1,
+      "textCharacters": 2802,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-419071.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-419071",
+      "sha256": "5c06fd690e67de84563dc43bbf296b26fb76abdd911e9d4a50b308e9b76ecd01",
+      "pages": 1,
+      "textCharacters": 2806,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-419141.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-419141",
+      "sha256": "75eff6b3d3113acd597d1ff572f93cecf4f688ef69368efdab5dbf837102dc05",
+      "pages": 1,
+      "textCharacters": 2810,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-419176.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-419176",
+      "sha256": "0ca7d14a35ae80f05cb9dc495ef64f24ccd4ddc7b3ad06b60fb0aa381132e1f4",
+      "pages": 1,
+      "textCharacters": 2844,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-419207.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-419207",
+      "sha256": "3c776134e799b7a9fa0a8ff489f4dafd91ea67473ff2f38fbd3a28d195bb5311",
+      "pages": 1,
+      "textCharacters": 2835,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-419247.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-419247",
+      "sha256": "9123da92c97c30046f79f5813d584d568406db663fd5260845294468f551a88d",
+      "pages": 1,
+      "textCharacters": 2846,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-419284.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-419284",
+      "sha256": "1ebf86ab270804795eefea9ff647efb7555b471e25513e4ecb03fed4bbf57c0c",
+      "pages": 1,
+      "textCharacters": 2859,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/bol/RS-419288.pdf",
+      "kind": "bol",
+      "shipmentId": "RS-419288",
+      "sha256": "a607635bf24b4fd927767c0f1b753a73043651b73ece4f9f5f5fab8cffae1ec8",
+      "pages": 1,
+      "textCharacters": 2783,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2104400.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-417620",
+      "sha256": "4c63b4fd379c255948c95127129bd7dacfede047aa16e9443a0b8d2c551807f6",
+      "pages": 1,
+      "textCharacters": 1356,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2104464.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-417652",
+      "sha256": "6f0136eeaec86fe049277e802f61207f2f8f7c4fdd623a38640130d98a53328a",
+      "pages": 1,
+      "textCharacters": 1351,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2104505.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-417713",
+      "sha256": "4a7de6a2854dcea5393cac7ec3b5f95ddaf36b54a393a4f069e1013c458280c0",
+      "pages": 1,
+      "textCharacters": 1342,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2104551.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-417741",
+      "sha256": "39bf554d50dec664624f635aa1ff3d557c4e5031fa5922476fd82fc3e690f698",
+      "pages": 1,
+      "textCharacters": 1347,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2104613.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-417764",
+      "sha256": "3ea62bb47c1b2a52d5d1cd04343999f4cf479ed2dff8dd94de723e38ef4b616b",
+      "pages": 1,
+      "textCharacters": 1371,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2104638.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-417875",
+      "sha256": "da292d9a1a021e1a72977f5a69aa383408d5f6e845f90311097ccebeea41ae8e",
+      "pages": 1,
+      "textCharacters": 1371,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2104677.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-417925",
+      "sha256": "988201b9ff010424395a82b776dae8ad8273d130011c4f55231f5a4397b5d252",
+      "pages": 1,
+      "textCharacters": 1356,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2104734.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-417931",
+      "sha256": "05d2a18d5f735a5a520c6d3ba3d5c8f78128eba7d3f7e9d8c422fc9e87ffdae2",
+      "pages": 1,
+      "textCharacters": 1460,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2104767.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-417961",
+      "sha256": "184abc0b75de5f73a65999faf175a5f25ef568bb330a9b536b55a7f2a2f48695",
+      "pages": 1,
+      "textCharacters": 1271,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2104806.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-418062",
+      "sha256": "df66947c0db02cafa16058263fc8b48f09e4e6d8a45718bb01674d2b6423d650",
+      "pages": 1,
+      "textCharacters": 1443,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2104834.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-418101",
+      "sha256": "c68f027581bf214b47f9ac34123186c4271dd68ea9f3c56c9dbf8d6ee1991989",
+      "pages": 1,
+      "textCharacters": 1348,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2104900.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-418163",
+      "sha256": "4b12ee0fbb8f1d4a8127a9a47f2856234df3af0e2ed32252601372c97a1de0c7",
+      "pages": 1,
+      "textCharacters": 1359,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2104963.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-418173",
+      "sha256": "37e6719d4fbcb89e315777c0690256dc8fbcda686f0b58eec809bf633641e221",
+      "pages": 1,
+      "textCharacters": 1356,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2105024.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-418179",
+      "sha256": "1c74dcc02d4c862de1d887b98b051bdd077b79a3e9f0003fde47e89288703b62",
+      "pages": 1,
+      "textCharacters": 1294,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2105053.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-418300",
+      "sha256": "75c9fc4f03fcd181c0d300ce0f20371440344a6a00d5ef41e6dee7bda96ae3b5",
+      "pages": 1,
+      "textCharacters": 1213,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2105118.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-418312",
+      "sha256": "47a9bcf6ee38447b3822241d6d3d4dac8944b6dfe6e6f8bdd9a071f358758996",
+      "pages": 1,
+      "textCharacters": 1308,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2105185.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-418383",
+      "sha256": "2f50e3c707cd495835d7ed9fe60dd72b83799cfd782b362ec1fa58918b51a3cb",
+      "pages": 1,
+      "textCharacters": 1320,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2105252.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-418402",
+      "sha256": "a1626b436d92e0231515c2ee3a2a9f175d80f879c4a3bb859fa5bec16833032c",
+      "pages": 1,
+      "textCharacters": 1366,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2105298.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-418420",
+      "sha256": "1dde1b3326c4e97c98c26d85dedf555fe26dd30dcfe6f0be169c05e49e29aac5",
+      "pages": 1,
+      "textCharacters": 1348,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2105356.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-418489",
+      "sha256": "4fe326a64c8b4c2473d410d042f47d77d1d42733c20e26774c186308a083b2fd",
+      "pages": 1,
+      "textCharacters": 1434,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2105402.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-418534",
+      "sha256": "01b112543d3e44de5f63e6bc26f8102966be2b59a3ecd469d9bf27ed12028f0c",
+      "pages": 1,
+      "textCharacters": 1465,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2105423.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-418543",
+      "sha256": "dddc359cb7b38720cca83000e40b39d314659a61e9b8f810303c39c6c6eb9f4c",
+      "pages": 1,
+      "textCharacters": 1270,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2105483.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-418558",
+      "sha256": "b1ebedd106f8206cbe3e72eda797df1c35f9f15f02b397720b838dc20c8df7e1",
+      "pages": 1,
+      "textCharacters": 1371,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2105536.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-418604",
+      "sha256": "fad0db2c0fa9886a43172b45b48df81e5e1560e5d2b43737c7ada8516be0c92b",
+      "pages": 1,
+      "textCharacters": 1376,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2105590.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-418640",
+      "sha256": "3da46e39d36939ea8a0efd2151dab17cd630a9f7d110d3aa6da6493ceeb0137f",
+      "pages": 1,
+      "textCharacters": 1384,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2105627.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-418641",
+      "sha256": "fe6c5f32735475fccb25cd2643fda7776f3fa16124f2a643b3bdca38433017ac",
+      "pages": 1,
+      "textCharacters": 1277,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2105648.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-418756",
+      "sha256": "28b3b0bc7dd63cfd0d4cf3a75c69a30febd24c619640e89003a8d34ba7d16aa9",
+      "pages": 1,
+      "textCharacters": 1352,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2105675.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-418771",
+      "sha256": "6bb754db4d77c80109c0ff918d6d2d71a6edc118ba05f95554fb7b0d51c66bec",
+      "pages": 1,
+      "textCharacters": 1367,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2105744.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-418806",
+      "sha256": "4e74de5989e5a3c244a2d48e8561f2cffe63ea6d0fb07301ac192655af08fa39",
+      "pages": 1,
+      "textCharacters": 1304,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2105781.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-418811",
+      "sha256": "4d6a075c7bcfbab8758d99491e8a25f05d6d7c438f7cbbca3429dc5c461ca848",
+      "pages": 1,
+      "textCharacters": 1293,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2105843.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-418931",
+      "sha256": "710293268a3ccc73a9b5e69805d42fa4fa9bfd4b5a98c90f7aa2d43057ae6ffb",
+      "pages": 1,
+      "textCharacters": 1280,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2105880.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-418955",
+      "sha256": "04db7b38e0889392ce77d2330b2a5cd54d3529712a5fd6e44332ce1d0d4601c4",
+      "pages": 1,
+      "textCharacters": 1449,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2105926.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-418994",
+      "sha256": "7ccd788c8a5458a64d4b18bf511d289bf6b3aadb1fd9c1990426ddb16d3b37d0",
+      "pages": 1,
+      "textCharacters": 1300,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2105981.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-419071",
+      "sha256": "3e11b55241900a41e9012d629cad68f7f464401b9b3d646dffb384111ec5c397",
+      "pages": 1,
+      "textCharacters": 1293,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2106030.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-419141",
+      "sha256": "1296ac4da3c877a78f307bc29650e1a83d3c806a5b0c96cd54461d161870ead3",
+      "pages": 1,
+      "textCharacters": 1288,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2106063.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-419176",
+      "sha256": "aec8c7aa18b9d0e26e2fde54cd3f2cd8f321610792c49f2f2ee66646dca0191c",
+      "pages": 1,
+      "textCharacters": 1368,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2106095.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-419207",
+      "sha256": "fc812b86e9bdf11f7495bdcc8a0706edaf8fe70497f691351ce7bd5ff61e3170",
+      "pages": 1,
+      "textCharacters": 1328,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2106154.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-419247",
+      "sha256": "e50850495b0ff6ab346ac330c30c771e02e9b32c1b6b6eccffd5685eff5c9f4f",
+      "pages": 1,
+      "textCharacters": 1372,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2106199.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-419284",
+      "sha256": "6322887f6ad7fa20700531606e26ee47e6f902ee795fa79d5a518328bbaa9a7b",
+      "pages": 1,
+      "textCharacters": 1349,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-followup-ar-documents/discovery-pack/invoices/INV-2106234.pdf",
+      "kind": "invoice",
+      "shipmentId": "RS-419288",
+      "sha256": "4dca43eb2c630441dc95915d06990812235d788d752472a1fe88e7bb4780f32f",
+      "pages": 1,
+      "textCharacters": 1286,
+      "identityMethod": "PDF text cross-check against ERP shipment/invoice/PO",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/dock_scans/P01_RS-419288_20260828.pdf",
+      "kind": "scan",
+      "shipmentId": "RS-419288",
+      "sha256": "df01ec475b39c24226b5b888818fe12a996a58091d0ed5fb2dcc221eab3e6d4b",
+      "pages": 1,
+      "textCharacters": 0,
+      "identityMethod": "filename only; image-only scan requires human review",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/dock_scans/P02_RS-417620_20260706.pdf",
+      "kind": "scan",
+      "shipmentId": "RS-417620",
+      "sha256": "808de216a5f752b818e442f9b3865a7cf9609bbdb23a1d074b88b1d27ef9a7fb",
+      "pages": 1,
+      "textCharacters": 0,
+      "identityMethod": "filename only; image-only scan requires human review",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/dock_scans/P02_RS-418811_20260813.pdf",
+      "kind": "scan",
+      "shipmentId": "RS-418811",
+      "sha256": "3736d37c47753e663e3298bf5c3eb32e1574b9d41e5098d10269f7594d30c3f4",
+      "pages": 1,
+      "textCharacters": 0,
+      "identityMethod": "filename only; image-only scan requires human review",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/dock_scans/P03_RS-418101_20260721.pdf",
+      "kind": "scan",
+      "shipmentId": "RS-418101",
+      "sha256": "0954799a05e7fdbcd499deb24f90d2271c6c31d6032021439abeb1d378499db0",
+      "pages": 1,
+      "textCharacters": 0,
+      "identityMethod": "filename only; image-only scan requires human review",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/dock_scans/P03_RS-418402_20260731.pdf",
+      "kind": "scan",
+      "shipmentId": "RS-418402",
+      "sha256": "78890b9587bb47081b6a9859fec1fd99e30973ffefaee753e3f0eb670dd494ac",
+      "pages": 1,
+      "textCharacters": 0,
+      "identityMethod": "filename only; image-only scan requires human review",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/dock_scans/P03_RS-418771_20260812.pdf",
+      "kind": "scan",
+      "shipmentId": "RS-418771",
+      "sha256": "b8d7baef6a099b22e17b7815a0a9fd441816173a0faa30b56865b7351437adcc",
+      "pages": 1,
+      "textCharacters": 0,
+      "identityMethod": "filename only; image-only scan requires human review",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/dock_scans/P04_RS-417925_20260715.pdf",
+      "kind": "scan",
+      "shipmentId": "RS-417925",
+      "sha256": "504901aeec5d3009081e64dd07f8b8c669a81500f039be2c0f5a47917c4af15b",
+      "pages": 1,
+      "textCharacters": 0,
+      "identityMethod": "filename only; image-only scan requires human review",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/dock_scans/P04_RS-417961_20260717.pdf",
+      "kind": "scan",
+      "shipmentId": "RS-417961",
+      "sha256": "d1d20223a3aeab292e43d70a23b0fc73d14a606acc5dedfb7a4fd1cb12cac69e",
+      "pages": 1,
+      "textCharacters": 0,
+      "identityMethod": "filename only; image-only scan requires human review",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/dock_scans/P04_RS-418179_20260724.pdf",
+      "kind": "scan",
+      "shipmentId": "RS-418179",
+      "sha256": "b72bc4a87e5d96b7b6b072bfe50307300b0426783adb62234f0655c9f4a99f58",
+      "pages": 1,
+      "textCharacters": 0,
+      "identityMethod": "filename only; image-only scan requires human review",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/dock_scans/P04_RS-418640_20260806.pdf",
+      "kind": "scan",
+      "shipmentId": "RS-418640",
+      "sha256": "e9006013679d8cd5ad8cfa92bcbeb9d603500c7989e1e4fc47804190da00f8b8",
+      "pages": 1,
+      "textCharacters": 0,
+      "identityMethod": "filename only; image-only scan requires human review",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/dock_scans/P04_RS-418955_20260818.pdf",
+      "kind": "scan",
+      "shipmentId": "RS-418955",
+      "sha256": "1fcd54b4d8f90a757be5d6ea4ffd6a27fc216be83686fedb083aef462ef2027e",
+      "pages": 1,
+      "textCharacters": 0,
+      "identityMethod": "filename only; image-only scan requires human review",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/dock_scans/P05_RS-418173_20260723.pdf",
+      "kind": "scan",
+      "shipmentId": "RS-418173",
+      "sha256": "98f99a7098de11b6c5e2e3fb312de1d25a13f8fb8b7f5e077861f6c335366997",
+      "pages": 1,
+      "textCharacters": 0,
+      "identityMethod": "filename only; image-only scan requires human review",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/dock_scans/P05_RS-418931_20260817.pdf",
+      "kind": "scan",
+      "shipmentId": "RS-418931",
+      "sha256": "b475bd79f49789a81aa66fa652169d71a4fe85defd3c76e8e9f2b192690bc3ff",
+      "pages": 1,
+      "textCharacters": 0,
+      "identityMethod": "filename only; image-only scan requires human review",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/dock_scans/P06_RS-418806_20260813.pdf",
+      "kind": "scan",
+      "shipmentId": "RS-418806",
+      "sha256": "ac4b658af593712d0191bebc936fb4d967f07ad11d7dc524681c108441136835",
+      "pages": 1,
+      "textCharacters": 0,
+      "identityMethod": "filename only; image-only scan requires human review",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/dock_scans/P08_RS-417713_20260709.pdf",
+      "kind": "scan",
+      "shipmentId": "RS-417713",
+      "sha256": "ca50631f5aef01372c4fcab3ed24f23a5bddba466842e519150253ac4a94b0c1",
+      "pages": 1,
+      "textCharacters": 0,
+      "identityMethod": "filename only; image-only scan requires human review",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/dock_scans/P08_RS-417931_20260716.pdf",
+      "kind": "scan",
+      "shipmentId": "RS-417931",
+      "sha256": "f15c57c96cc6791ee5ef847f6c8373bed907c30750cdbdcca6aab419cd431bf1",
+      "pages": 1,
+      "textCharacters": 0,
+      "identityMethod": "filename only; image-only scan requires human review",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/dock_scans/P08_RS-419141_20260824.pdf",
+      "kind": "scan",
+      "shipmentId": "RS-419141",
+      "sha256": "39df7a9c57a005be1ad291e6ab380ee996c7ae8488e3a119ce40fec8ac1f53da",
+      "pages": 1,
+      "textCharacters": 0,
+      "identityMethod": "filename only; image-only scan requires human review",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/dock_scans/P09_RS-418062_20260720.pdf",
+      "kind": "scan",
+      "shipmentId": "RS-418062",
+      "sha256": "1e0ce2443bea6acb849480e1efe08af441389fab3d0adc7157701371950e4861",
+      "pages": 1,
+      "textCharacters": 0,
+      "identityMethod": "filename only; image-only scan requires human review",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/dock_scans/P09_RS-418312_20260728.pdf",
+      "kind": "scan",
+      "shipmentId": "RS-418312",
+      "sha256": "0f63f9e691ff270fa0e82c074cd966af454ccc5c5ba65736a621de4ec42817f7",
+      "pages": 1,
+      "textCharacters": 0,
+      "identityMethod": "filename only; image-only scan requires human review",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/dock_scans/P09_RS-418534_20260804.pdf",
+      "kind": "scan",
+      "shipmentId": "RS-418534",
+      "sha256": "eb765609bcd21e111b7c7efaca55452b4182917819568d22306d8fd1defb5b0e",
+      "pages": 1,
+      "textCharacters": 0,
+      "identityMethod": "filename only; image-only scan requires human review",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/dock_scans/P09_RS-418756_20260811.pdf",
+      "kind": "scan",
+      "shipmentId": "RS-418756",
+      "sha256": "485ab2fbe717329b5df8667c00ef0b75d387b26ad144d08633764438f604412a",
+      "pages": 1,
+      "textCharacters": 0,
+      "identityMethod": "filename only; image-only scan requires human review",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/dock_scans/P10_RS-417652_20260707.pdf",
+      "kind": "scan",
+      "shipmentId": "RS-417652",
+      "sha256": "2a1fd7a8c579292b567cc5ec03c72f60d28044f618fd03de32cde87ac1e570b6",
+      "pages": 1,
+      "textCharacters": 0,
+      "identityMethod": "filename only; image-only scan requires human review",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/dock_scans/P10_RS-418300_20260727.pdf",
+      "kind": "scan",
+      "shipmentId": "RS-418300",
+      "sha256": "1c1ec7e4b9bcd55973e5c81acaf92d97a7ee01b9d7d60832e04fac7beb86a4bd",
+      "pages": 1,
+      "textCharacters": 0,
+      "identityMethod": "filename only; image-only scan requires human review",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/dock_scans/P10_RS-419284_20260828.pdf",
+      "kind": "scan",
+      "shipmentId": "RS-419284",
+      "sha256": "2dfa2a34897f715fe24d8799dc3537d72dd1d8b67ab6294647db96d1dbff4546",
+      "pages": 1,
+      "textCharacters": 0,
+      "identityMethod": "filename only; image-only scan requires human review",
+      "warnings": []
+    },
+    {
+      "path": "ridgeline-sample-pack/base-pack/dock_scans/P11_RS-418543_20260804.pdf",
+      "kind": "scan",
+      "shipmentId": "RS-418543",
+      "sha256": "56bb4977c018a9ef008c44afae63ebb038ee68f2efa9881d9b6ed119ee448c41",
+      "pages": 1,
+      "textCharacters": 0,
+      "identityMethod": "filename only; image-only scan requires human review",
+      "warnings": []
+    }
+  ],
+  "joins": [
+    {
+      "deductionId": "CHB-0912707",
+      "shipmentId": "RS-417741",
+      "warnings": []
+    },
+    {
+      "deductionId": "CHB-0899904",
+      "shipmentId": "RS-417652",
+      "warnings": []
+    },
+    {
+      "deductionId": "CHB-0937322",
+      "shipmentId": "RS-417764",
+      "warnings": []
+    },
+    {
+      "deductionId": "CHB-0957013",
+      "shipmentId": "RS-418604",
+      "warnings": []
+    },
+    {
+      "deductionId": "CHB-0953718",
+      "shipmentId": "RS-418420",
+      "warnings": []
+    },
+    {
+      "deductionId": "CHB-0993032",
+      "shipmentId": "RS-419247",
+      "warnings": []
+    },
+    {
+      "deductionId": "CHB-0977505",
+      "shipmentId": "RS-419176",
+      "warnings": []
+    },
+    {
+      "deductionId": "DM0004420211",
+      "shipmentId": "RS-417875",
+      "warnings": []
+    },
+    {
+      "deductionId": "DM0004420550",
+      "shipmentId": "RS-418300",
+      "warnings": []
+    },
+    {
+      "deductionId": "DM0004430625",
+      "shipmentId": "RS-418994",
+      "warnings": []
+    },
+    {
+      "deductionId": "DM0004424399",
+      "shipmentId": "RS-418641",
+      "warnings": []
+    },
+    {
+      "deductionId": "DM0004426872",
+      "shipmentId": "RS-418806",
+      "warnings": []
+    }
+  ]
+}
