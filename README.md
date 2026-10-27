@@ -49,7 +49,7 @@ Retries reuse the prepared PDF bytes and stable operation ID. A matching retry r
 
 **[Watch the current combined-BOL workflow (40 seconds)](https://sebastian.ac/nutrientdemo/proof/combined-bol.mp4)**: driver pickup → receiver acknowledgement → controlled local failure → refresh/retry → one combined Accounting citation → packet export. This is a silent, original-speed recording on a disposable local service with synthetic data.
 
-The presentation is planned for 14:45. Its seven proof recordings cover an earlier pickup-to-Accounting revision, before the combined receiver workflow. They show actual interface behavior at original speed, including a controlled local upload failure. They are supporting evidence for that revision, not a recording of every current feature.
+The 22-slide presentation is planned for 14:45. Its receiving introduction advances into a dedicated live Receiver delivery slide on the same shipment. Its seven proof recordings cover an earlier pickup-to-Accounting revision, before the combined receiver workflow. They show actual interface behavior at original speed, including a controlled local upload failure. They are supporting evidence for that revision, not a recording of every current feature.
 
 ## Verify
 

@@ -28,11 +28,21 @@ export function hasSignature(strokes: SignatureStroke[]) {
     || Math.max(...points.map(point => point.y)) - Math.min(...points.map(point => point.y)) >= 0.015;
 }
 
-export interface DockProps { active?: boolean; shipment: Shipment; onCaptured: (id: string, result: CaptureResult) => void; onAccounting: (id: string, documentId?: string) => void; }
+export interface DockProps { active?: boolean; requestedTask?: 'pickup' | 'receiving'; taskRequest?: number; shipment: Shipment; onCaptured: (id: string, result: CaptureResult) => void; onAccounting: (id: string, documentId?: string) => void; }
 export default function Dock(props: DockProps) {
-  const [mode, setMode] = useState<'pickup' | 'receiving'>(() => new URLSearchParams(location.hash.split('?')[1] || '').get('task') === 'receiving' ? 'receiving' : 'pickup');
+  const [mode, setMode] = useState<'pickup' | 'receiving'>(() => props.requestedTask ?? (new URLSearchParams(location.hash.split('?')[1] || '').get('task') === 'receiving' ? 'receiving' : 'pickup'));
   const [visited, setVisited] = useState(mode === 'receiving'), [checked, setChecked] = useState(false), [locked, setLocked] = useState(false);
   useEffect(() => { let active = true; recovery.read(props.shipment.id).then(work => { if (active && work) { setMode(work.receiving ? 'receiving' : 'pickup'); if (work.receiving) setVisited(true); } }).catch(() => undefined).finally(() => { if (active) setChecked(true); }); return () => { active = false; }; }, [props.shipment.id]);
+  // A presentation entry selects the stage once; manual switches and retained work stay usable.
+  const appliedTask = useRef(`${props.requestedTask || ''}:${props.taskRequest || 0}`);
+  useEffect(() => {
+    if (!props.requestedTask || !checked || locked) return;
+    const request = `${props.requestedTask}:${props.taskRequest || 0}`;
+    if (appliedTask.current === request) return;
+    appliedTask.current = request;
+    setMode(props.requestedTask);
+    if (props.requestedTask === 'receiving') setVisited(true);
+  }, [props.requestedTask, props.taskRequest, checked, locked]);
   function choose(next: 'pickup' | 'receiving') { if (locked) return; setMode(next); if (next === 'receiving') setVisited(true); if (location.hash.startsWith('#/dock/')) history.replaceState(null, '', location.hash.split('?')[0] + (next === 'receiving' ? '?task=receiving' : '')); }
   const latestPickup = chronologicalBolRecords(props.shipment.documents).filter(doc => doc.kind === 'demo-pickup').at(-1);
   const hasPickup = Boolean(latestPickup);

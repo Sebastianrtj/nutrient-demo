@@ -113,21 +113,23 @@ function readLiveContext(): LiveContext {
     ...(query.has('shipment') ? { shipmentId: query.get('shipment')!, dockList: false } : {}),
     ...(query.has('case') ? { caseId: query.get('case')!, queue: false } : {}),
     ...(query.has('document') ? { documentId: query.get('document')! } : {}),
-    ...(query.has('list') ? { dockList: true } : {}), ...(query.has('queue') ? { queue: true } : {}) };
+    ...(query.has('list') && query.get('slide') !== 'receiving-live' ? { dockList: true } : query.get('slide') === 'receiving-live' ? { dockList: false } : {}), ...(query.has('queue') ? { queue: true } : {}) };
 }
 export default function Presentation({ data, onCaptured, onAssessment }: PresentationProps) {
   const [position, setPosition] = useState(readPosition);
   const [builds, setBuilds] = useState<Record<string, number>>(readBuilds);
   const [live, setLive] = useState<LiveContext>(readLiveContext);
   const [documentRequest, setDocumentRequest] = useState(0);
+  const [dockRequest, setDockRequest] = useState(0);
   const [shipmentQuery, setShipmentQuery] = useState('');
-  const [visited, setVisited] = useState(() => ({ dock: presentationSlides[readPosition()].id === 'dock-live', accounting: presentationSlides[readPosition()].id === 'accounting-live' }));
+  const [visited, setVisited] = useState(() => ({ dock: ['dock-live', 'receiving-live'].includes(presentationSlides[readPosition()].id), accounting: presentationSlides[readPosition()].id === 'accounting-live' }));
   const [notesOpen, setNotesOpen] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
   const [fullscreenError, setFullscreenError] = useState('');
   const heading = useRef<HTMLDivElement>(null);
   const slide = presentationSlides[position];
-  const isLive = slide.id === 'dock-live' || slide.id === 'accounting-live';
+  const isDockLive = slide.id === 'dock-live' || slide.id === 'receiving-live';
+  const isLive = isDockLive || slide.id === 'accounting-live';
   const cinematicStep = cinematicSteps[slide.id];
   const steps = presentationBuilds[slide.id] || 1;
   const step = builds[slide.id] || 1;
@@ -141,16 +143,18 @@ export default function Presentation({ data, onCaptured, onAssessment }: Present
     const index = Math.max(0, Math.min(presentationSlides.length - 1, next));
     const id = presentationSlides[index].id;
     rememberedSlide = index;
+    if (id === 'receiving-live' && context.dockList) { context = { ...context, dockList: false }; setLive(context); }
+    if (id === 'dock-live' || id === 'receiving-live') setDockRequest(value => value + 1);
     setPosition(index);
-    setVisited(value => ({ dock: value.dock || id === 'dock-live', accounting: value.accounting || id === 'accounting-live' }));
+    setVisited(value => ({ dock: value.dock || id === 'dock-live' || id === 'receiving-live', accounting: value.accounting || id === 'accounting-live' }));
     const query = new URLSearchParams({ slide: id });
-    if (id === 'dock-live') { if (context.dockList) query.set('list', '1'); else query.set('shipment', context.shipmentId); }
+    if (id === 'dock-live' || id === 'receiving-live') { if (context.dockList) query.set('list', '1'); else query.set('shipment', context.shipmentId); }
     if (id === 'accounting-live') { if (context.queue) query.set('queue', '1'); else { query.set('case', context.caseId); if (context.documentId) query.set('document', context.documentId); } }
     history.replaceState(null, '', `#/present?${query}`);
     heading.current?.scrollTo({ top: 0 });
     if (focus) requestAnimationFrame(() => heading.current?.focus());
   }
-  function openLive(kind: 'dock' | 'accounting', changes: Partial<LiveContext> = {}) {
+  function openLive(kind: 'dock' | 'receiving' | 'accounting', changes: Partial<LiveContext> = {}) {
     if (kind === 'accounting' && changes.documentId) setDocumentRequest(value => value + 1);
     const context = { ...live, ...changes }; setLive(context);
     goTo(presentationSlides.findIndex(item => item.id === `${kind}-live`), true, context);
@@ -163,7 +167,7 @@ export default function Presentation({ data, onCaptured, onAssessment }: Present
     const [path, query = ''] = href.replace(/^#\/?/, '').split('?');
     const [kind, encodedId] = path.split('/');
     const id = encodedId ? decodeURIComponent(encodedId) : undefined;
-    if (kind === 'dock') openLive('dock', { shipmentId: id || live.shipmentId, dockList: !id });
+    if (kind === 'dock') openLive(new URLSearchParams(query).get('task') === 'receiving' ? 'receiving' : 'dock', { shipmentId: id || live.shipmentId, dockList: !id });
     else if (kind === 'accounting') {
       openLive('accounting', { caseId: id || live.caseId, documentId: new URLSearchParams(query).get('document') || undefined, queue: !id });
     } else return false;
@@ -201,8 +205,9 @@ export default function Presentation({ data, onCaptured, onAssessment }: Present
     const onHash = () => {
       if (!location.hash.startsWith('#/present')) return;
       const next = readPosition(); setPosition(next); setLive(readLiveContext());
+      if (['dock-live', 'receiving-live'].includes(presentationSlides[next].id)) setDockRequest(value => value + 1);
       if (presentationSlides[next].id === 'accounting-live' && new URLSearchParams(location.hash.split('?')[1] || '').has('document')) setDocumentRequest(value => value + 1);
-      setVisited(value => ({ dock: value.dock || presentationSlides[next].id === 'dock-live', accounting: value.accounting || presentationSlides[next].id === 'accounting-live' }));
+      setVisited(value => ({ dock: value.dock || ['dock-live', 'receiving-live'].includes(presentationSlides[next].id), accounting: value.accounting || presentationSlides[next].id === 'accounting-live' }));
     };
     window.addEventListener('hashchange', onHash); return () => window.removeEventListener('hashchange', onHash);
   }, []);
@@ -230,9 +235,9 @@ export default function Presentation({ data, onCaptured, onAssessment }: Present
   }
   return <section className={`rl-deck${cinematicStep !== undefined ? ' rl-deck--cinematic' : ''}${isLive ? ' rl-deck--live' : ''}${slide.id.endsWith('divider') ? ' rl-deck--divider' : ''}`} aria-label="Ridgeline presentation" data-slide={slide.id} data-step={step} data-steps={steps} data-planned-seconds={plannedSeconds}>
     <div className="rl-deck__content" onClick={event => { if (!isLive && !window.getSelection()?.toString() && !(event.target as HTMLElement).closest('button,a,input,select,textarea,[contenteditable="true"]')) advance(); }} ref={heading} tabIndex={-1} aria-label={`${position + 1}. ${slide.label}`}>
-      {cinematicStep !== undefined ? <Story step={cinematicStep} onDock={() => openLive('dock')} onAccounting={() => openLive('accounting', { queue: false })} /> : !isLive && <article className="rl-deck__slide" key={slide.id}><SlideContent id={slide.id} step={step} /></article>}
-      {visited.dock && <div className="rl-deck__live rl-deck__live--dock" hidden={slide.id !== 'dock-live'} onClickCapture={captureNavigation}>
-        {live.dockList ? <ShipmentList shipments={data.shipments} query={shipmentQuery} setQuery={setShipmentQuery} /> : shipment ? <Dock active={slide.id === 'dock-live'} key={shipment.id} shipment={shipment} onCaptured={(id, result) => { onCaptured(id, result); setLive(value => ({ ...value, shipmentId: id, documentId: result.capture.id })); }} onAccounting={openAccounting} /> : <div className="empty-state"><h1>Shipment unavailable</h1><button onClick={() => openLive('dock', { dockList: true })}>Choose a shipment</button></div>}
+      {cinematicStep !== undefined ? <Story step={cinematicStep} onDock={() => openLive(slide.id === 'demo-receiving' ? 'receiving' : 'dock')} onAccounting={() => openLive('accounting', { queue: false })} /> : !isLive && <article className="rl-deck__slide" key={slide.id}><SlideContent id={slide.id} step={step} /></article>}
+      {visited.dock && <div className="rl-deck__live rl-deck__live--dock" hidden={!isDockLive} onClickCapture={captureNavigation}>
+        {live.dockList ? <ShipmentList shipments={data.shipments} query={shipmentQuery} setQuery={setShipmentQuery} /> : shipment ? <Dock active={isDockLive} requestedTask={isDockLive ? slide.id === 'receiving-live' ? 'receiving' : 'pickup' : undefined} taskRequest={dockRequest} key={shipment.id} shipment={shipment} onCaptured={(id, result) => { onCaptured(id, result); setLive(value => ({ ...value, shipmentId: id, documentId: result.capture.id })); }} onAccounting={openAccounting} /> : <div className="empty-state"><h1>Shipment unavailable</h1><button onClick={() => openLive('dock', { dockList: true })}>Choose a shipment</button></div>}
       </div>}
       {visited.accounting && <div className="rl-deck__live rl-deck__live--accounting" hidden={slide.id !== 'accounting-live'} onClickCapture={captureNavigation}>
         <Accounting deductions={data.deductions} shipments={data.shipments} sampleDate={data.sampleDate} id={account.queue ? undefined : account.caseId} documentId={account.documentId} documentRequest={documentRequest} onAssessment={onAssessment} />
