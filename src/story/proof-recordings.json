@@ -1,0 +1,69 @@
+{
+  "version": 1,
+  "recordings": [
+    {
+      "id": "discovery",
+      "title": "Discovery → scope",
+      "description": "Customer findings, the proposed proof and its boundaries.",
+      "src": "01-discovery-scope.mp4",
+      "durationSeconds": 39.64,
+      "note": "",
+      "poster": "01-discovery-scope.jpg"
+    },
+    {
+      "id": "documents",
+      "title": "Correct documents + matching",
+      "description": "Inspect the shipment, original BOL, invoice and separate historical evidence.",
+      "src": "02-documents-matching.mp4",
+      "durationSeconds": 21.72,
+      "note": "",
+      "poster": "02-documents-matching.jpg"
+    },
+    {
+      "id": "flows",
+      "title": "Dock → Accounting",
+      "description": "Review, sign, store and reopen the pickup, then assess the evidence and prepare the packet.",
+      "src": "03-both-working-flows.mp4",
+      "durationSeconds": 117.84,
+      "note": "Includes a controlled first-upload failure.",
+      "poster": "03-both-working-flows.jpg"
+    },
+    {
+      "id": "recovery",
+      "title": "Failure recovery",
+      "description": "A controlled failed upload, refresh and safe retry, plus an unsaved assessment returning after refresh.",
+      "src": "04-failure-recovery.mp4",
+      "durationSeconds": 86.64,
+      "note": "First upload deliberately failed in the recording browser.",
+      "poster": "04-failure-recovery.jpg"
+    },
+    {
+      "id": "demo",
+      "title": "The customer-facing demo",
+      "description": "Follow the illustrated shipment journey into the working Dock and Accounting tasks.",
+      "src": "05-customer-demo.mp4",
+      "durationSeconds": 134.92,
+      "note": "Truck scenes are illustrative. Includes a controlled first-upload failure.",
+      "poster": "05-customer-demo.jpg"
+    },
+    {
+      "id": "productization",
+      "title": "Productization + cost",
+      "description": "The stack, reusable workflow, customer integration and planning cost assumptions.",
+      "src": "06-productization-cost.mp4",
+      "durationSeconds": 30.72,
+      "note": "Planning estimates, not quotes.",
+      "poster": "06-productization-cost.jpg"
+    },
+    {
+      "id": "walkthrough",
+      "title": "The full proof walkthrough",
+      "description": "Watch the presentation and actual document workflow, including the controlled failure, recovery, saved record and evidence packet.",
+      "src": "full-walkthrough.mp4",
+      "durationSeconds": 217.32,
+      "note": "Includes a controlled first-upload failure. Not a spoken rehearsal.",
+      "poster": "full-walkthrough.jpg"
+    }
+  ],
+  "recordedAt": "2026-10-27T22:45:28.212Z"
+}

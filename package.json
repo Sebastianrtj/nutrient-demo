@@ -13,7 +13,9 @@
     "test": "node --import tsx --test server/*.test.ts src/components/*.test.tsx",
     "start": "NODE_ENV=production tsx server/index.ts",
     "build:hosted": "node --import tsx scripts/build-hosted.mjs",
-    "test:worker": "node --import tsx --test worker/*.test.mjs"
+    "test:worker": "node --import tsx --test worker/*.test.mjs",
+    "prebuild": "node scripts/prepare-proof-recordings.mjs",
+    "prebuild:hosted": "node scripts/prepare-proof-recordings.mjs"
   },
   "dependencies": {
     "@nutrient-sdk/viewer": "1.24.0",

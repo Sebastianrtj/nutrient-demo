@@ -31,7 +31,8 @@ export default {
     const headers = {'Content-Type':contentType(url.pathname), 'Content-Length':String(end-start+1), 'Accept-Ranges':'bytes', 'Cache-Control':'public, max-age=86400'};
     if (status === 206) headers['Content-Range'] = `bytes ${start}-${end}/${large.size}`;
     if (request.method === 'HEAD') return new Response(null, {status, headers});
-    let index = Math.floor(start/PART_SIZE), reader, partStart = 0, partOffset = 0;
+    const partSize = large.partSize || PART_SIZE;
+    let index = Math.floor(start/partSize), reader, partStart = 0, partOffset = 0;
     // ASSETS bindings need not honor Range. Slice the streamed bytes ourselves,
     // keeping memory bounded and cancelling a part once the requested range ends.
     const stream = new ReadableStream({
@@ -39,8 +40,8 @@ export default {
         try {
           while (true) {
             if (!reader) {
-              if (index >= large.parts.length || index*PART_SIZE > end) { controller.close(); return; }
-              partStart = index*PART_SIZE; partOffset = 0;
+              if (index >= large.parts.length || index*partSize > end) { controller.close(); return; }
+              partStart = index*partSize; partOffset = 0;
               const response = await env.ASSETS.fetch(new Request(url.origin + large.parts[index++]));
               if (!response.ok || !response.body) throw new Error('Runtime asset part unavailable');
               reader = response.body.getReader();

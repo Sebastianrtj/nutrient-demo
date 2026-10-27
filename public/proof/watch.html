@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f5f1">
+  <title>Ridgeline · recorded proof</title>
+  <style>
+    :root{color-scheme:light;--ink:#292d2f;--muted:#62676a;--paper:#f6f5f1;--line:#d8dbd8;--accent:#225e65}
+    *{box-sizing:border-box}[hidden]{display:none!important}
+    body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+    a{color:var(--accent);text-underline-offset:4px;text-decoration-thickness:1px;text-decoration-color:#9cb3ad}
+    a:hover{text-decoration-color:currentColor}a:focus-visible{outline:3px solid #526e74;outline-offset:4px}
+    header{background:#fff;border-bottom:1px solid var(--line)}
+    .header-inner{display:flex;align-items:center;justify-content:space-between;gap:24px;max-width:1120px;min-height:64px;margin:auto;padding:0 28px}
+    .brand{font-size:13px;font-weight:650;letter-spacing:.16em}
+    .return{display:inline-flex;align-items:center;min-height:44px;font-size:13px;white-space:nowrap}
+    main{max-width:1120px;margin:auto;padding:26px 28px 40px}
+    .eyebrow{margin:0 0 9px;color:var(--muted);font-size:11px;font-weight:600;letter-spacing:.13em;text-transform:uppercase}
+    h1{margin:0 0 12px;font-size:clamp(28px,3.1vw,39px);font-weight:500;line-height:1.15;letter-spacing:-.035em}
+    .description{max-width:840px;margin:0 0 20px;color:var(--muted);font-size:16px;line-height:1.55}
+    video{display:block;width:100%;max-height:calc(100dvh - 280px);min-height:180px;aspect-ratio:1.44;object-fit:contain;background:#e9eae6;border:1px solid var(--line);border-radius:4px}
+    .status{max-width:780px;margin:0 0 20px;color:var(--muted);font-size:14px;line-height:1.6}
+    .recording-footer{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:6px 24px;margin-top:15px}
+    .caption{margin:0;color:var(--muted);font-size:12px;line-height:1.6}
+    .download{display:inline-flex;align-items:center;min-height:36px;font-size:12px;white-space:nowrap}
+    .note{max-width:850px;margin:7px 0 0;color:var(--muted);font-size:12px;line-height:1.6}
+    @media(max-width:600px){.header-inner{padding:0 20px;gap:16px}.brand{font-size:12px}.return{font-size:12px}main{padding:25px 20px 32px}h1{font-size:29px}.description{font-size:15px;margin-bottom:18px}video{max-height:none;min-height:0}.recording-footer{display:block;margin-top:13px}.download{margin-top:6px;min-height:44px}.note{margin-top:2px}}
+  </style>
+</head>
+<body>
+  <header><div class="header-inner"><span class="brand">RIDGELINE</span><a class="return" href="../#/present?slide=criteria">← Return to criteria</a></div></header>
+  <main>
+    <p class="eyebrow">Recorded proof</p>
+    <h1 id="title">Recorded walkthrough</h1>
+    <p class="description" id="description">A recorded run of the Ridgeline proof.</p>
+    <p class="status" id="status" role="status" aria-live="polite">Loading recording…</p>
+    <video id="recording" controls playsinline preload="metadata" aria-labelledby="title" aria-describedby="description caption note" hidden></video>
+    <div class="recording-footer"><p class="caption" id="caption">Original speed · Silent · Synthetic records</p><a class="download" id="download" download hidden>Download MP4</a></div>
+    <p class="note" id="note" hidden></p>
+    <noscript><p class="status">Enable JavaScript to load this recording, or return to the criteria slide.</p></noscript>
+  </main>
+  <script>
+    const allowedIds = new Set(['discovery', 'documents', 'flows', 'recovery', 'demo', 'productization', 'walkthrough']);
+    const clipId = new URLSearchParams(location.search).get('clip') || 'walkthrough';
+    const title = document.getElementById('title');
+    const description = document.getElementById('description');
+    const status = document.getElementById('status');
+    const video = document.getElementById('recording');
+    const caption = document.getElementById('caption');
+    const note = document.getElementById('note');
+    const download = document.getElementById('download');
+    function durationLabel(seconds) {
+      if (!Number.isFinite(seconds) || seconds <= 0) return '';
+      const rounded = Math.round(seconds);
+      return `${Math.floor(rounded / 60)}:${String(rounded % 60).padStart(2, '0')} · `;
+    }
+    function showUnavailable(message) {
+      status.textContent = message;
+      status.hidden = false;
+      video.hidden = true;
+    }
+    video.addEventListener('loadedmetadata', () => {
+      caption.textContent = `${durationLabel(video.duration)}Original speed · Silent · Synthetic records`;
+      status.hidden = true;
+    });
+    video.addEventListener('error', () => {
+      showUnavailable('This recording cannot play here. Download the MP4 or return to the criteria.');
+    });
+    async function loadRecording() {
+      if (!allowedIds.has(clipId)) {
+        title.textContent = 'Recording not found';
+        description.textContent = 'Choose a recorded proof from the criteria slide.';
+        showUnavailable('This recording is not listed.');
+        return;
+      }
+      try {
+        const response = await fetch('./recordings.json', { cache: 'no-cache' });
+        if (!response.ok) throw new Error('Manifest unavailable');
+        const manifest = await response.json();
+        const entry = Array.isArray(manifest.recordings) ? manifest.recordings.find(item => item && item.id === clipId) : undefined;
+        if (!entry || typeof entry.title !== 'string' || !entry.title.trim() || typeof entry.src !== 'string' || !/^(?:\.\/)?[a-z0-9][a-z0-9._-]*\.mp4$/i.test(entry.src)) throw new Error('Recording unavailable');
+        const mediaPath = `./${entry.src.replace(/^\.\//, '')}`;
+        title.textContent = entry.title;
+        document.title = `Ridgeline · ${entry.title}`;
+        description.textContent = typeof entry.description === 'string' ? entry.description : '';
+        description.hidden = !description.textContent;
+        caption.textContent = `${durationLabel(entry.durationSeconds)}Original speed · Silent · Synthetic records`;
+        note.textContent = typeof entry.note === 'string' ? entry.note : '';
+        note.hidden = !note.textContent;
+        download.href = mediaPath;
+        download.download = entry.src.replace(/^\.\//, '');
+        download.hidden = false;
+        if (typeof entry.poster === 'string' && /^[a-z0-9][a-z0-9._-]*\.jpg$/i.test(entry.poster)) video.poster = `./${entry.poster}`;
+        video.src = mediaPath;
+        video.hidden = false;
+        video.load();
+      } catch {
+        title.textContent = 'Recording unavailable';
+        description.textContent = 'Choose another recorded proof from the criteria slide.';
+        showUnavailable('This recording is not available here yet.');
+      }
+    }
+    void loadRecording();
+  </script>
+</body>
+</html>

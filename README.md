@@ -28,6 +28,8 @@ The presentation uses the same sections as its progress rail: Context, Discovery
 4. Review case **CHB-0899904** in Accounting, compare the original BOL, invoice and historical scan, save an explicit assessment/citation, and prepare a ZIP packet.
 5. Inspect **CHB-0912707 / RS-417741** separately to see a missing historical scan. A new pickup does not fill that gap.
 
+The final criteria slide has six Watch links and a full 3:37 walkthrough. Clips show the actual interface at original speed with no narration. They include a deliberately failed first upload on a disposable local service. Each link also works as a standalone video page.
+
 Static slides introduce one point per click. Space/Right reveals, Left reverses, A shows the remaining points, N opens notes and Home restarts the presentation. Unsent ink survives main-slide navigation. Accounting drafts recover in the same browser after refresh. Save is explicit.
 
 ## Hosted architecture
@@ -40,7 +42,7 @@ Static slides introduce one point per click. Space/Right reveals, Left reverses,
 - **R2 binding `NUTRIENT_FILES`:** durable PDF/receipt objects and assessment JSON. A scoped HttpOnly session cookie isolates each browser's generated records. A PDF and its receipt commit as one conditional R2 write, so concurrent retries keep one version.
 - **Local Node/Express service:** the same application contracts backed by an on-disk `.data/` store for local use.
 
-The static host must serve `dist/` at `/nutrientdemo/` and route that prefix through the Worker. The supplied builder splits assets larger than the host's 25 MiB asset limit; the Worker streams their original bytes. The browser still receives the unmodified SDK runtime.
+The static host must serve `dist/` at `/nutrientdemo/` and route that prefix through the Worker. The supplied builder splits assets larger than the host's 25 MiB asset limit; the Worker streams their original bytes. The browser still receives the unmodified SDK runtime. The Worker also implements bounded byte ranges for proof videos, so seeking works even when the asset binding returns whole files.
 
 The hosted path is added to Sebastian's existing website project. Its private hosting credentials and website source are not part of this public repository. No reset/fault endpoint is exposed by the hosted API. Local `DEMO_FAULTS=1 npm run dev` enables the controlled local failure endpoint for disposable rehearsals only.
 
