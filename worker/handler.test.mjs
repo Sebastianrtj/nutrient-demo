@@ -28,3 +28,33 @@ test('browser sessions cannot see each other’s captures or assessments',async(
 test('receipt conflicts and wrong shipment sources are rejected',async()=>{const f=fixture(),s=await session(f),bytes=await signed();await upload(f,s.cookie,bytes);const other=new Uint8Array(bytes);other[100]^=1;assert.equal((await upload(f,s.cookie,other)).status,409);assert.equal((await call(f,s.cookie,'/shipments/RS-417652/captures','POST',bytes,{'Content-Type':'application/pdf','X-Operation-Id':'different','X-Source-Document-Id':'bol-RS-417741'})).status,409);});
 test('saved follow-up packet preserves four documents with independently matching hashes',async()=>{const f=fixture(),s=await session(f);await upload(f,s.cookie,await signed());const review={status:'investigate',note:'Historical scan is separate; item receipt needs human review.',sourceDocumentId:'scan-RS-417652',pageNumber:1};assert.equal((await call(f,s.cookie,'/deductions/CHB-0899904/assessment','PUT',JSON.stringify(review))).status,200);const response=await call(f,s.cookie,'/deductions/CHB-0899904/packet');assert.equal(response.status,200);const files=unzipSync(new Uint8Array(await response.arrayBuffer())),manifest=JSON.parse(strFromU8(files['manifest.json']));assert.equal(manifest.documents.length,4);assert.equal(manifest.caseStatus.label,'Needs follow-up');assert.equal(manifest.caseStatus.followUpReason,'Unresolved discrepancy');for(const doc of manifest.documents)assert.equal(hash(files[doc.archivePath]),doc.sha256);assert.equal(manifest.documents.filter(d=>d.provenance==='new-demo-pickup').length,1);});
 test('assessment validation, same-origin writes and missing historical scan remain explicit',async()=>{const f=fixture(),s=await session(f);assert.equal((await call(f,s.cookie,'/deductions/CHB-0899904/assessment','PUT',JSON.stringify({status:'ready',note:'Review',sourceDocumentId:'bol-RS-417741',pageNumber:1}))).status,400);assert.equal((await call(f,s.cookie,'/deductions/CHB-0899904/assessment','PUT','{}',{origin:'https://other.test'})).status,403);const d=await (await call(f,s.cookie,'/deductions/CHB-0912707')).json();assert.equal(d.evidenceState,'missing');assert.equal(d.documents.some(d=>d.kind==='scan'),false);assert.equal((await call(f,s.cookie,'/demo/reset','POST')).status,404);});
+
+test('packet retains distinct same-day pickups and each member matches its manifest hash', async t => {
+  t.mock.timers.enable({ apis: ['Date'], now: new Date('2026-10-27T16:00:00Z') });
+  const f = fixture(), s = await session(f);
+  const captured = [];
+  for (const label of ['first-pickup', 'second-pickup']) {
+    const pdf = await PDFDocument.load(await signed());
+    pdf.setSubject(label);
+    const response = await upload(f, s.cookie, await pdf.save(), label);
+    assert.equal(response.status, 201);
+    captured.push((await response.json()).capture);
+  }
+  assert.equal(captured[0].name, captured[1].name);
+  assert.notEqual(captured[0].sha256, captured[1].sha256);
+
+  const response = await call(f, s.cookie, '/deductions/CHB-0899904/packet');
+  assert.equal(response.status, 200);
+  const members = unzipSync(new Uint8Array(await response.arrayBuffer()));
+  const manifest = JSON.parse(strFromU8(members['manifest.json']));
+  const pickups = manifest.documents.filter(doc => doc.provenance === 'new-demo-pickup');
+  assert.equal(pickups.length, 2);
+  assert.equal(new Set(pickups.map(doc => doc.archivePath)).size, 2);
+  assert.equal(Object.keys(members).filter(name => name.startsWith('demo-pickup/')).length, 2);
+  for (const doc of pickups) {
+    assert.ok(members[doc.archivePath], `Missing archive member ${doc.archivePath}`);
+    assert.equal(hash(members[doc.archivePath]), doc.sha256);
+    assert.equal(doc.receipt.sha256, doc.sha256);
+    assert.ok(doc.archivePath.includes(doc.captureId));
+  }
+});
