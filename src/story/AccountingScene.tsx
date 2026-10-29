@@ -1,3 +1,4 @@
+import { appUrl } from '../lib/base-path';
 import { useState } from 'react';
 import type { CSSProperties } from 'react';
 import './accounting-scene.css';
@@ -32,7 +33,7 @@ export default function AccountingScene({ progress, still }: { progress: number;
       {sources.map((source, index) => <article className="rl-story__retrieval-source" key={source.id} data-source={source.id} style={reveal(position, .1 + index * .07, .62 + index * .04, 15)}>
         <div className="rl-story__retrieval-source-heading"><strong>{source.title}</strong><span>0{index + 1} / Source</span></div>
         <div className="rl-story__retrieval-paper" data-image-state={failedSources.includes(source.id) ? 'unavailable' : loadedSources.includes(source.id) ? 'ready' : 'loading'}>
-          {failedSources.includes(source.id) ? <div className="rl-story__retrieval-image-fallback"><svg viewBox="0 0 32 40" fill="none" aria-hidden="true"><path d="M5 2h15l8 8v28H5zM20 2v9h8M11 18h11M11 23h11M11 28h7" stroke="currentColor" strokeWidth="1.2" /></svg><span>Preview unavailable</span></div> : <img className="rl-story__source-preview" src={`/story/accounting-assets/${source.id}.png`} alt={source.alt} onLoad={() => setLoadedSources(current => current.includes(source.id) ? current : [...current, source.id])} onError={() => markMissing(source.id)} />}
+          {failedSources.includes(source.id) ? <div className="rl-story__retrieval-image-fallback"><svg viewBox="0 0 32 40" fill="none" aria-hidden="true"><path d="M5 2h15l8 8v28H5zM20 2v9h8M11 18h11M11 23h11M11 28h7" stroke="currentColor" strokeWidth="1.2" /></svg><span>Preview unavailable</span></div> : <img className="rl-story__source-preview" src={appUrl(`/story/accounting-assets/${source.id}.png`)} alt={source.alt} onLoad={() => setLoadedSources(current => current.includes(source.id) ? current : [...current, source.id])} onError={() => markMissing(source.id)} />}
         </div>
         <p className="rl-story__retrieval-file">{source.file}</p>
       </article>)}
