@@ -150,6 +150,23 @@ test('hosted bootstrap uses a scoped HttpOnly session and the full synthetic cat
     ),
   );
 });
+test('cached PDF validators are not forwarded to the internal static asset lookup', async () => {
+  const f = fixture(), s = await session(f);
+  const originalFetch = f.env.ASSETS.fetch;
+  f.env.ASSETS.fetch = async request => {
+    if (request.headers.has('if-none-match') || request.headers.has('if-modified-since')) {
+      return new Response(null, { status: 304 });
+    }
+    return originalFetch(request);
+  };
+  const result = await call(f, s.cookie, '/documents/bol-RS-417652', 'GET', undefined, {
+    'If-None-Match': '"cached-file"',
+    'If-Modified-Since': 'Tue, 27 Oct 2026 12:00:00 GMT',
+  });
+  assert.equal(result.status, 200);
+  assert.equal(hash(new Uint8Array(await result.arrayBuffer())), hash(readFileSync(source.documents.get('bol-RS-417652').path)));
+});
+
 test('atomic concurrent retries produce one durable PDF and survive a new handler', async () => {
   const f = fixture(),
     s = await session(f),

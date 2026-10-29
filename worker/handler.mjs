@@ -190,10 +190,16 @@ export function createNutrientHandler(catalog) {
         const doc = document(decodeURIComponent(path.split('/')[2]));
         let body;
         if (doc.assetPath) {
+          // The API URL and internal asset have different cache identities.
+          // Forwarding browser validators can turn this lookup into a bodyless
+          // 304, which was then incorrectly reported as an unavailable source.
+          const assetHeaders = new Headers();
+          const range = request.headers.get('range');
+          if (range) assetHeaders.set('Range', range);
           const source = await env.ASSETS.fetch(
             new Request(url.origin + doc.assetPath, {
               method: request.method,
-              headers: request.headers,
+              headers: assetHeaders,
             }),
           );
           if (!source.ok) fail(503, 'Source PDF is unavailable.');
