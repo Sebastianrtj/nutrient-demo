@@ -1,5 +1,6 @@
 import { appUrl } from './base-path';
 import { draw } from './motion';
+import { loadPdfSource } from './pdf-source';
 import type { Instance } from '@nutrient-sdk/viewer';
 import type { SignatureStroke, ReceivingDetails } from '../../shared/contracts';
 
@@ -59,6 +60,7 @@ export async function mountPdf(
     opts.signal?.throwIfAborted();
     if (!element.isConnected) throw new Error('Document view was closed.');
     if (element.clientWidth < 1 || element.clientHeight < 1) throw new Error('Document view has no available space.');
+    const documentBytes = await loadPdfSource(new URL(url, window.location.origin).href, opts.signal);
     sdkPromise ??= import('@nutrient-sdk/viewer').then(module => module.default);
     const sdk = await sdkPromise;
     opts.signal?.throwIfAborted();
@@ -77,7 +79,7 @@ export async function mountPdf(
       instance = await sdk.load({
         container,
         signal: opts.signal,
-        document: new URL(url, window.location.origin).href,
+        document: documentBytes,
         baseUrl: new URL(import.meta.env.BASE_URL, window.location.origin).href,
         styleSheets: [new URL(appUrl('viewer-theme.css'), window.location.origin).href],
         ...(licenseKey ? { licenseKey } : publishableKey ? { session: publishableKey } : {}),
